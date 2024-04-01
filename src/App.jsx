@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import logo from './assets/images/logo-ipb.svg'
 
-function App() {
-  const [count, setCount] = useState(0)
+import './assets/css/styles.css'
 
+export function App() {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="container">
+      <header className="header">
+        <img src={logo} alt="logo-ipb" />
+        <span>IPB.Orçamentos</span>
+      </header>
 
-export default App
+      <form>
+        <div className="inputContainer">
+          <label htmlFor="email">E-mail</label>
+          <input 
+          type="text" 
+          name="email" 
+          id="email" 
+          placeholder="email" />
+        </div>
+
+        <div className="inputContainer">
+          <label htmlFor="password">Password</label>
+          <input 
+          type="text" 
+          name="password" 
+          id="password" 
+          placeholder="password" />
+        </div>
+
+        <button className="button">
+          Login
+        </button>
+
+        <a href="">Esqueceste-te da tua conta?</a>
+        <a href="">Regista-te no IPB.Orçamentos</a>
+
+      </form>
+
+    </div>
+  );
+}
