@@ -1,3 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+html,
+body {
+    font-family: "Inter", sans-serif;
+}
 
 .container {
     width: 100vw;
@@ -8,8 +19,84 @@
     flex-direction: column;
 }
 
-.container .header{
+.container .header {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 30px;
 }
+
+.container .header span {
+    padding-top: 25px;
+    color: rgba(0, 0, 0, 0.80);
+    text-align: center;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.container form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container form .inputContainer input {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 660px;
+    height: 38px;
+    padding: 10px;
+    gap: 10px;
+    flex-shrink: 0;
+    margin-bottom: 20px;
+
+    border-radius: 5px;
+    border: 2px solid #820053;
+    background: #FFF;
+
+    color: rgba(6, 6, 6, 0.20);
+
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.container .button {
+    display: flex;
+    width: 113px;
+    height: 38px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+
+    border-radius: 5px;
+    background: #820053;
+
+    width: 82px;
+    flex-shrink: 0;
+    color: #FFF;
+
+    font-size: 16px;
+    font-style: normal;
+    line-height: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    .container form .inputContainer input {
+        max-width: 100% !important; 
+    }
+    
+    .container .button {
+        width: 100% !important;
+        max-width: 200px !important;
+    }
+    
+}
+
+    

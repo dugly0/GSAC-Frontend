@@ -1,6 +1,6 @@
-import logo from './assets/images/logo-ipb.svg'
+import logo from "./assets/images/logo-ipb.svg";
 
-import './assets/css/styles.css'
+import "./assets/css/styles.css";
 
 export function App() {
   return (
@@ -12,32 +12,30 @@ export function App() {
 
       <form>
         <div className="inputContainer">
-          <label htmlFor="email">E-mail</label>
           <input 
           type="text" 
           name="email" 
           id="email" 
-          placeholder="email" />
+          placeholder="Email" />
         </div>
 
         <div className="inputContainer">
-          <label htmlFor="password">Password</label>
-          <input 
-          type="text" 
-          name="password" 
-          id="password" 
-          placeholder="password" />
+          <input
+            type="text"
+            name="password"
+            id="password"
+            placeholder="Senha"
+          />
         </div>
 
-        <button className="button">
-          Login
-        </button>
-
-        <a href="">Esqueceste-te da tua conta?</a>
-        <a href="">Regista-te no IPB.Orçamentos</a>
-
+        <button className="button">Login</button>
       </form>
 
+      <div>
+      <a href="">Esqueceste-te da tua conta?</a>
+      <a href="">Regista-te no IPB.Orçamentos</a>
+      </div>
+      
     </div>
   );
 }
