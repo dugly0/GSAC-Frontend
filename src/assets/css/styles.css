@@ -42,61 +42,37 @@ body {
     flex-direction: column;
 }
 
-.container form .inputContainer input {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-    width: 660px;
-    height: 38px;
-    padding: 10px;
-    gap: 10px;
-    flex-shrink: 0;
-    margin-bottom: 20px;
-
-    border-radius: 5px;
-    border: 2px solid #820053;
-    background: #FFF;
-
-    color: rgba(6, 6, 6, 0.20);
-
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
+.container form .custom-input {
+    border-color: #820053;
+    max-width: 450px;
+    width: 100%;
 }
 
-.container .button {
-    display: flex;
-    width: 113px;
-    height: 38px;
+.icon-input {
+    margin-right: auto;
+    color: #820053;
+    background-color: transparent;
+    border: none;
+    border-radius: 10px 10px 10px 10px;
     padding: 10px;
-    justify-content: center;
+
+}
+.button {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
 
-    border-radius: 5px;
-    background: #820053;
+    background-color: #820053;
+    border-color: transparent;
+  }
 
-    width: 82px;
-    flex-shrink: 0;
-    color: #FFF;
+  .icon-btn {
+    margin-left: 10px;
+    color: #fff;
+  }
 
-    font-size: 16px;
-    font-style: normal;
-    line-height: 20px;
-}
-
-@media only screen and (max-width: 768px) {
-    .container form .inputContainer input {
-        max-width: 100% !important; 
+@media only screen and (min-width: 768px) {
+    .container form .custom-input {
+        width: 450px;
     }
-    
-    .container .button {
-        width: 100% !important;
-        max-width: 200px !important;
-    }
-    
 }
-
-    
