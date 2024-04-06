@@ -1,0 +1,12 @@
+.btn-link {
+    text-decoration: none;
+    color: black;
+    font-weight:400;
+    font-size: medium;
+}
+
+.btn-link:hover {
+    transition: 0.3ms ease-in-out;
+    text-decoration:underline;
+    color: #820053;
+}
