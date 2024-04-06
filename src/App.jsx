@@ -3,8 +3,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./assets/css/styles.css";
 
 import NavBar from "./components/navbar/Navbar";
-import FormInput from "./components/formInput/FormInput";
 import Header from "./components/header/Header";
+import FormInput from "./components/formInput/FormInput";
+import AccountServices from "./components/accountServices/AccountServices";
 import Footer from "./components/footer/Footer";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <div className="container">
         <Header />
         <FormInput />
+        <AccountServices />
         <Footer />
       </div>
     </div>
