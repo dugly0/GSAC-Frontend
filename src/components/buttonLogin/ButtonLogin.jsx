@@ -22,12 +22,12 @@ export default function BtnLogin() {
             >
               {isLoading ? (
                 <>
-                  <span>Login</span>
+                  <a href="">Login</a>
                   <FontAwesomeIcon icon={faSpinner} className="icon-btn" spin />
                 </>
               ) : (
                 <>
-                  <span>Login</span>
+                  <a href="">Login</a>
                   <FontAwesomeIcon icon={faArrowRight} className="icon-btn" />
                 </>
               )}
