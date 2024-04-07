@@ -1,0 +1,71 @@
+ul {
+  list-style: none;
+}
+.img1 {
+  width: 300px;
+}
+.form-check-input {
+  border-color: #820053;
+}
+.form-check-input:checked {
+  border-color: #820053;
+  background-color: #820053;
+}
+.form-check-input:focus {
+  border-color: #820053;
+  box-shadow: 0px 0px 3px #820053;
+}
+.form-control:focus {
+  box-shadow: 0px 0px 5px #820053;
+  border-color: #820053;
+}
+.fa-xmark {
+  color: #ff0000;
+  font-size: 31px;
+}
+.fa-xmark:hover {
+  color: #a10000;
+}
+.fa-pencil {
+  color: #820053;
+  font-size: 22px;
+}
+.fa-pencil:hover {
+  color: #3d0027;
+}
+.dropdown-item:active {
+  background-color: #820053;
+}
+.img2 {
+  border-radius: 100%;
+}
+.modal-header {
+  display: flex;
+  justify-content: center;
+}
+.modal-footer button {
+  display: flex;
+  background-color: #820053;
+  border-color: #820053;
+}
+.modal-footer button:hover {
+  display: flex;
+  background-color: #3d0027;
+  border-color: #820053;
+}
+.bt{
+  display: flex;
+  background-color: #820053;
+  border-color: #820053;
+}
+.bt:hover {
+  display: flex;
+  background-color: #3d0027;
+  border-color: #820053;
+}
+.bt:active {
+  display: flex;
+  background-color: #3d0027;
+  border-color: #820053;
+}
+
