@@ -1,0 +1,17 @@
+.button {
+    font-weight: 300;
+    justify-content: space-between;
+    background-color: #820053;
+    border-color: transparent;
+}
+
+.button:hover,
+.button:focus {
+    background-color: #a20067 !important;
+    border-color: transparent;
+}
+
+.custom-input[type="email"]:focus {
+    border-color: #820053;
+    box-shadow: 0 0 5px #820053;
+}

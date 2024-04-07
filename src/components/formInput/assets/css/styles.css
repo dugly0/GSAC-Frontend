@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+.container .custom-input {
+    border-color: #820053;
+}
+
+.container .custom-input[type="email"]:focus,
+.container .custom-input[type="password"]:focus {
+    border-color: #820053;
+    box-shadow: 0 0 5px #820053;
+}
+
+.icon-input {
+    color: #820053;
+    background-color: transparent;
+    border-color: #820053;
+    padding: 10px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.eye-icon {
+    border-color: #820053;
+    background-color: transparent;
+}
+.password-wrapper.password #input-active {
+    border-color: #820053;
+    box-shadow: 0 0 5px #820053;
+}
+
+#basic-addon2{
+    padding-right: 12px;
+}
