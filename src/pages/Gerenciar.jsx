@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ModalUpdate from "./components/modalUpdate";
-import ModalCreate from "./components/modalCreate";
+import ModalUpdate from "../components/modalUpdate";
+import ModalCreate from "../components/modalCreate";
 import Button from "react-bootstrap/Button";
 
 export default function Gerenciar() {
