@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+
 import Modal from 'react-bootstrap/Modal';
 import FormOramentos from './FormOrcamentos';
 
@@ -12,9 +12,11 @@ function Example() {
 
   return (
     <>
+    <div className='d-flex justify-content-end p-2'>
       <Button variant="outline-light" onClick={handleShow} style={{ backgroundColor: "#820053" }}>
         Solicitar Orçamento
       </Button>
+      </div>
 
       <Modal show={show} onHide={handleClose} >
         <Modal.Header closeButton style={{ backgroundColor: "rgb(108, 117, 125)" }}>

@@ -2,6 +2,9 @@ import { useState } from "react";
 import ModalUpdate from "../components/modalUpdate";
 import ModalCreate from "../components/modalCreate";
 import Button from "react-bootstrap/Button";
+import '../assets/css/Gerenciar.css'
+import { Link } from "react-router-dom";
+import Navbar from '../components/Navbar'
 
 export default function Gerenciar() {
   const [showU, setShowU] = useState(false);
@@ -14,6 +17,7 @@ export default function Gerenciar() {
 
   return (
     <>
+    <Navbar/>
       <div className="container p-5">
         <div className="container">
           <h1 className="text-center">Gerenciar</h1>
@@ -28,7 +32,7 @@ export default function Gerenciar() {
           </Button>
         </div>
         <div className="d-flex justify-content-center mt-5">
-          <Button className="btn-secondary bt">Voltar</Button>
+          <Link to={'/perfilfunc'}><Button className="btn-secondary bt">Voltar</Button></Link>
         </div>
         <div className="border-bottom border-black-50 p-5"></div>
       </div>

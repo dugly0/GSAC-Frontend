@@ -8,7 +8,7 @@ function BasicExample() {
     
   return (
     <Container>
-        <Accordion defaultActiveKey="0">
+        <Accordion defaultActiveKey="0" className='mt-5'>
         <Accordion.Item eventKey="0" style={{textAlign: "right"}}>
             <Accordion.Header >Orçamentos</Accordion.Header>
             <Accordion.Body style={{textAlign: "center"}}>
@@ -51,8 +51,11 @@ function BasicExample() {
                     </tbody>
             </Table>
         </Accordion.Body>
-        <ModalButton />
         </Accordion.Item>
+        <Accordion/>
+        </Accordion>
+        <ModalButton />
+        <Accordion>
         <Accordion.Item eventKey="1">
             <Accordion.Header>Faturas</Accordion.Header>
             <Accordion.Body>

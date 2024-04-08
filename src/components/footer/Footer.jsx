@@ -13,7 +13,8 @@ import ipbFooter from "./assets/images/ipb-footer.png";
 export default function Footer() {
   return (
     <footer>
-      <div className="innerAll">
+    <div className="border-bottom border-black-50 mt-5"></div>
+      <div className="d-lg-flex d-md-flex justify-content-between container mt-2">
         <div className="row clearfix">
           <div className="col-md-6">
             <img src={ipbFooter} alt="Footer" className="img-fluid custom-img" />
@@ -44,7 +45,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
     </footer>
   );
 }

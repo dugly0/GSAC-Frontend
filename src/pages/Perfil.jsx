@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import Navbar from '../components/Navbar'
 
 const Perfil = () => {
   const [nome, setNome] = useState("Gustavo Silva");
@@ -12,15 +13,10 @@ const Perfil = () => {
   const [editando, setEditando] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  
-
   const handleEditar = () => {
     setEditando(true);
   };
 
-  const handleGerenciar = () => {
-    setEditando(false);
-  };
   const handleSalvar = () => {
     setEditando(false);
   };
@@ -29,8 +25,10 @@ const Perfil = () => {
   };
 
   return (
+    <>
+    <Navbar tipoPerfil={true} tipoOrcamento={true}/>
     <div className="container mt-5">
-    <img src="src/assets/imagem_perfil.png" alt="foto de perfil" style={{
+    <img src="../src/assets/imagem_perfil.png" style={{
             width: "150px",
             height: "150px", 
             borderRadius: "50%", 
@@ -137,49 +135,30 @@ const Perfil = () => {
           </div>
         </Form.Group>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  <Form>
-    {editando ? (
-      <>
-        <Button
-          style={{ backgroundColor: "#820053", marginRight: "5px" }}
-          className="btn btn-primary bt"
-          variant="primary"
-          onClick={handleSalvar}
-        >
-          Salvar
-        </Button>
-        <Button
-          style={{ backgroundColor: "#820053" }}
-          className="btn btn-primary bt"
-          variant="secondary"
-          onClick={handleGerenciar}
-        >
-          Gerenciar
-        </Button>
-      </>
-    ) : (
-      <>
-        <Button
-          style={{ backgroundColor: "#820053", marginRight: "5px" }}
-          className="btn btn-primary bt"
-          variant="secondary"
-          onClick={handleGerenciar}
-        >
-          Gerenciar
-        </Button>
-        <Button
-          style={{ backgroundColor: "#820053" }}
-          variant="secondary"
-          onClick={handleEditar}
-        >
-          Editar
-        </Button>
-      </>
-    )}
-  </Form>
-</div>
+      <Form>
+        {editando ? (
+          <Button
+            style={{ backgroundColor: "#820053" }}
+            className="btn btn-primary bt"
+            variant="primary"
+            onClick={handleSalvar}
+          >
+            Salvar
+          </Button>
+        ) : (
+          <Button
+            style={{ backgroundColor: "#820053" }}
+            variant="secondary"
+            onClick={handleEditar}
+          >
+            Editar
+          </Button>
+        )}
+      </Form>
+    </div>
     </Form>
     </div>
+    </>
   );
 };
 

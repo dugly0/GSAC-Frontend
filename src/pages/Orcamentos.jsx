@@ -1,18 +1,15 @@
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import ListaOrcamentos from "./components/telaOrcamentos/ListaOrcamentos";
+import Navbar from "../components/Navbar";
+import ListaOrcamentos from "../components/telaOrcamentos/ListaOrcamentos";
 
 
-function Orcamentos() {
+export default function Orcamentos() {
   return (
     <>
     <div className="Orcamentos">
-      <Navbar />
+      <Navbar tipoPerfil={true} tipoOrcamento={true}/>
       <ListaOrcamentos />
-      <Footer />
     </div>
     </>
   );
 }
 
-export default Orcamentos;

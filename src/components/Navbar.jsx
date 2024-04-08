@@ -2,13 +2,19 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link  } from "react-router-dom";
 
-export default function BasicExample() {
+export default function BasicExample({tipoPerfil,tipoOrcamento}) {
+  
+  const path = tipoPerfil ? 'perfil' : 'perfilfunc' ;
+  const patho = tipoOrcamento ? '/orcamentos' : '/orcamentosfunc' ;
+  const isPerfilPage = location.pathname.includes("perfil");
+
   return (
     <Navbar expand="lg" style={{ backgroundColor: "#820053" }}>
       <Container>
-        <Navbar.Brand href="#home" style={{ color: "white" }}>
-          IPB.Orçamentos
+        <Navbar.Brand><Link to={patho}>IPB.Orçamentos</Link>
+          
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -17,13 +23,15 @@ export default function BasicExample() {
             <NavDropdown
               title={<span style={{ color: "white" }}>Fulana</span>}
               id="basic-nav-dropdown"
-            >
-              <NavDropdown.Item href="#action/3.1">Perfil</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Sair</NavDropdown.Item>
+              > 
+              {!isPerfilPage && (
+              <NavDropdown.Item> <Link to={path} >Perfil</Link> </NavDropdown.Item>)}
+              <NavDropdown.Item> <Link to={'/'}> Sair</Link> </NavDropdown.Item>
             </NavDropdown>
+            
             <div className="d-flex align-items-center">
               <img
-                src="./src/assets/imagem_perfil.png"
+                src="../../src/assets/imagem_perfil.png"
                 alt="Foto do usuário"
                 className="rounded-circle"
                 style={{ width: "40px", height: "40px" }}

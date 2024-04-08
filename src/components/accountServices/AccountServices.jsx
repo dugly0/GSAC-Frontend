@@ -23,7 +23,7 @@ export default function AccountServices() {
 
   return (
     <div className="container-md text-center">
-      <div className="row justify-content-center">
+      <div className="row justify-content-center mt-3">
         <div className="col-md-4 mt-2 mb-2">
           <button className="btn btn-link" onClick={handleOpenPassRecoveryModal}>
             Esqueceu a senha?
@@ -34,7 +34,7 @@ export default function AccountServices() {
             Deseja se cadastrar?
           </button>
         </div>
-        <hr className="small-margin"></hr>
+        
       </div>
       <SignUpModal isShow={showSignUpModal} handleClose={handleCloseSignUpModal} />
       <PassRecoveryModal isShow={showPassRecoveryModal} handleClose={handleClosePassRecoveryModal} />

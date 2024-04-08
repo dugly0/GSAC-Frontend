@@ -15,7 +15,7 @@ export default function ModalUpdate({ isShow, handleClose }) {
     <Modal show={isShow} onHide={handleClose} scrollable>
       <Modal.Header>
         <Modal.Title>
-          <img className="img1" src="src/assets/logo-ipb.png"></img>
+          <img className="img1" src="../../src/assets/logo-ipb.png"></img>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

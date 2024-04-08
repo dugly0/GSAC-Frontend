@@ -7,7 +7,7 @@ export default function User({ handleCollapseToggle }) {
     <div className="d-flex align-items-center ">
       <div className="flex-shrink-0">
         <a href="#Perfil">
-          <img className="img2" src="src/assets/imagem_perfil.png" />
+          <img className="img2" src="../../src/assets/imagem_perfil.png" />
         </a>
       </div>
       <div className="flex-grow-1 ms-3">Fulana da Silva</div>

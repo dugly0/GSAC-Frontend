@@ -1,15 +1,13 @@
 import { Container } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Table from 'react-bootstrap/Table';
-import ModalButton from './ModalButton';
-import './ListaOrcamentos.css';
 
 
 function BasicExample() {
     
   return (
     <Container>
-        <Accordion defaultActiveKey="">
+        <Accordion defaultActiveKey="0" className='mt-5'>
         <Accordion.Item  eventKey="0" style={{textAlign: "center", marginBottom: "50px",}}>
             <Accordion.Header >Orçamentos Solicitados</Accordion.Header>
             <Accordion.Body style={{textAlign: "center"}}>
@@ -51,8 +49,9 @@ function BasicExample() {
                     </tbody>
             </Table>
         </Accordion.Body>
-        
         </Accordion.Item>
+        <Accordion/>
+        <Accordion>
         <Accordion.Item className="accordion-item2" style={{ marginBottom: "5%"  }} eventKey="1">
             <Accordion.Header>Análises</Accordion.Header>
             <Accordion.Body>
@@ -94,6 +93,7 @@ function BasicExample() {
             </Table>
             </Accordion.Body>
         </Accordion.Item>
+        </Accordion>
         </Accordion>
     </Container>
   );
