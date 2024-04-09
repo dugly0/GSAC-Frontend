@@ -3,7 +3,7 @@ import ModalUpdate from "../components/modalUpdate";
 import ModalCreate from "../components/modalCreate";
 import Button from "react-bootstrap/Button";
 import '../assets/css/Gerenciar.css'
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from '../components/Navbar'
 
 export default function Gerenciar() {
@@ -14,6 +14,7 @@ export default function Gerenciar() {
   const handleShowC = () => setShowC(true);
   const handleCloseU = () => setShowU(false);
   const handleShowU = () => setShowU(true);
+  const nav = useNavigate();
 
   return (
     <>
@@ -32,7 +33,7 @@ export default function Gerenciar() {
           </Button>
         </div>
         <div className="d-flex justify-content-center mt-5">
-          <Link to={'/perfilfunc'}><Button className="btn-secondary bt">Voltar</Button></Link>
+          <Button className="btn-secondary bt" onClick={()=> nav('/orcamentosfunc/perfilfunc')}>Voltar</Button>
         </div>
         <div className="border-bottom border-black-50 p-5"></div>
       </div>
