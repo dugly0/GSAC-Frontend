@@ -45,7 +45,7 @@ export default function ModalUpdate({ isShow, handleClose }) {
         ) : (
           <>
             {users.map((user) => (
-              <div className="p-1 border"><User 
+              <div className="p-1 border-bottom"><User 
                 key={user.id}
                 handleCollapseToggle={handleCollapseToggle}
                 username={user.utilizador?.nome || user.username} // Use nome if available

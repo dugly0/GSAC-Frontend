@@ -4,7 +4,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 // User.js
 export default function User({ utilizador, username, handleCollapseToggle }) {
-  const displayName = utilizador?.nome || username;
+  const displayName = utilizador?.nome || "";
   return (
     <div className="d-flex align-items-center ">
       <div className="flex-shrink-0">
