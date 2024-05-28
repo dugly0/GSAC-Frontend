@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import BtnLogin from "../buttonLogin/ButtonLogin";
 
 export default function FormInput() {
   const [showPassword, setShowPassword] = useState(false);
@@ -96,9 +97,8 @@ export default function FormInput() {
 
           {error && <div className="text-danger">{error}</div>}
 
-          <button type="submit" className="btn btn-primary">
-            Login
-          </button>
+          <BtnLogin onClick={handleSubmit}></BtnLogin>
+
         </Form>
       </div>
     </div>
