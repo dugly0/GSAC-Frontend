@@ -9,11 +9,9 @@ export default function formUpdate() {
           <option value="" disabled hidden>
             Selecione o tipo da conta
           </option>
-          <option>admin</option>
-          <option>cliente</option>
-          <option>gabinete</option>
-          <option>chefelab</option>
-          <option>teclab</option>
+          <option>Admin</option>
+          <option>Cliente</option>
+          <option>Laboratório</option>
         </Form.Select>
       </Form.Group>
       <Form.Group className="mb-3">
@@ -51,10 +49,6 @@ export default function formUpdate() {
       <Form.Group className="mb-3">
         <Form.Label>Nif</Form.Label>
         <Form.Control type="number" placeholder="Insira o Nif" enable />
-      </Form.Group>
-      <Form.Group controlId="foto" className="mb-3">
-        <Form.Label>Foto</Form.Label>
-        <Form.Control type="file" />
       </Form.Group>
     </div>
   );

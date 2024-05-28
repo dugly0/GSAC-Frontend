@@ -1,13 +1,14 @@
-import { Collapse, Alert } from "react-bootstrap"; // Added Alert for errors
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import User from "./User";
-import FormUpdate from "./formUpdate";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Collapse, Alert } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import FormUpdate from "./formUpdate"; // Certifique-se de que o caminho está correto
+import User from "./User.jsx";
+
 
 export default function ModalUpdate({ isShow, handleClose }) {
-  const [open, setOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [users, setUsers] = useState([]);
   const [hasError, setHasError] = useState(false);
 
@@ -23,20 +24,20 @@ export default function ModalUpdate({ isShow, handleClose }) {
       }
     };
 
-    if (isShow) {  // Fetch when modal is shown
+    if (isShow) {
       fetchUsers();
     }
   }, [isShow]);
 
-  const handleCollapseToggle = () => {
-    setOpen(!open);
+  const handleCollapseToggle = (userId) => {
+    setSelectedUserId(userId === selectedUserId ? null : userId);
   };
 
   return (
     <Modal show={isShow} onHide={handleClose} scrollable>
       <Modal.Header>
         <Modal.Title>
-          <img className="img1" src="../../src/assets/logo-ipb.png"></img>
+          <img className="img1" src="../../src/assets/logo-ipb.png" />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -45,18 +46,23 @@ export default function ModalUpdate({ isShow, handleClose }) {
         ) : (
           <>
             {users.map((user) => (
-              <div className="p-1 border-bottom"><User 
-                key={user.id}
-                handleCollapseToggle={handleCollapseToggle}
-                username={user.utilizador?.nome || user.username} // Use nome if available
-                {...user} // Pass all user data for future use
-              /></div>
-            ))}
-            <Collapse in={open}>
-              <div id="example-collapse-text">
-                <FormUpdate />
+              <div key={user.id}>
+                <User
+                  id={user.id}
+                  utilizador={user.utilizador}
+                  username={user.username}
+                  isExpanded={selectedUserId === user.id}
+                  handleCollapseToggle={handleCollapseToggle}
+                />
+                <Collapse in={selectedUserId === user.id}>
+                  <div id={`collapseExample${user.id}`}>
+                    <div className="card card-body">
+                      <FormUpdate user={user} />
+                    </div>
+                  </div>
+                </Collapse>
               </div>
-            </Collapse>
+            ))}
           </>
         )}
       </Modal.Body>

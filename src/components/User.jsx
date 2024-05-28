@@ -2,28 +2,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-// User.js
-export default function User({ utilizador, username, handleCollapseToggle }) {
+export default function User({ id, utilizador, username, isExpanded, handleCollapseToggle }) {
   const displayName = utilizador?.nome || "";
+
   return (
-    <div className="d-flex align-items-center ">
+    <div className="d-flex align-items-center border-bottom border-black-50">
       <div className="flex-shrink-0">
-        <a href="#Perfil">
-          <img className="img2" src="../../src/assets/imagem_perfil.png" />
+      </div>
+      <div className="flex-grow-1 ms-3">{displayName}</div>
+      <div className="p-1" toggle="tooltip" title="Editar Usuário">
+        <a
+          data-bs-toggle="collapse"
+          href={`#collapseExample${id}`}
+          aria-expanded={isExpanded}
+          aria-controls={`collapseExample${id}`}
+          onClick={() => handleCollapseToggle(id)}
+        >
+          <FontAwesomeIcon icon={faPencil} />
         </a>
       </div>
-      <div className="flex-grow-1 ms-3">{displayName}</div> 
-      <div className="p-1" title="Editar Usuário">
-        <FontAwesomeIcon
-          cursor={"pointer"}
-          icon={faPencil}
-          onClick={handleCollapseToggle}
-          aria-controls="example-collapse-text"
-          aria-expanded={open}
-        />
-      </div>
-      <div className="p-1" title="Excluir Usuário">
-        <FontAwesomeIcon icon={faXmark} cursor={"pointer"} />
+      <div className="p-1" toggle="tooltip" title="Excluir Usuário">
+        <a href="#exampleModal" data-bs-toggle="modal">
+          <FontAwesomeIcon icon={faXmark} />
+        </a>
       </div>
     </div>
   );
