@@ -8,31 +8,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faArrowRight, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-export default function BtnLogin({nomeBotao}) {
-  const { isLoading, onClickLogin } = useLogin();
+export default function BtnLogin({ onClick, children, isLoading }) {
   return (
     <div className="container">
-          <div className={`button-wrapper ${isLoading ? "loading" : ""}`}>
-              <Button
-                variant="primary"
-                type="submit"
-                className="button"
-                onClick={onClickLogin}
-                disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <a href="">Login Funcionário</a>
-                    <FontAwesomeIcon icon={faSpinner} className="icon-btn" spin />
-                  </>
-                ) : (
-                  <>
-                    <a href="">{nomeBotao}</a>
-                    <FontAwesomeIcon icon={faArrowRight} className="icon-btn" />
-                  </>
-                )}
-                </Button>
-              
-          </div>
-        </div>
+      <div className="d-flex p-2d-flex justify-content-center">
+        <Button variant="primary" className="button" onClick={onClick} disabled={isLoading}>Login
+          {children}
+          {isLoading ? (
+            <FontAwesomeIcon icon={faSpinner} className="icon-btn" spin />
+          ) : (
+            <FontAwesomeIcon icon={faArrowRight} className="icon-btn" />
+          )}
+        </Button>
+      </div>
+    </div>
   );
 }
