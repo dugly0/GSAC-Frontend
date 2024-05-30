@@ -3,9 +3,12 @@ import { Container, Button } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const endpoint = "http://localhost:8080/api/orcamento/orcamento-por-utilizador-id";
-const token = "LnkeNnnbkd3N5WZiYOR_9RE8k33nK1RX";
+const token = localStorage.getItem('token');  
+const roleID = localStorage.getItem('role_id');
+console.log(roleID);
 
 const getOrcamentos = async () => {
   try {
@@ -24,8 +27,20 @@ const getOrcamentos = async () => {
 function BasicExample() {
   const [orcamentos, setOrcamentos] = useState([]);
   const [error, setError] = useState(null);
+  const history = useNavigate();
 
   useEffect(() => {
+    // Verifica o roleID e redireciona se necessário
+    if (roleID !== '1') {
+      setTimeout(() => {
+        alert('Você não tem permissão para acessar esta página.');        
+      },1000)
+      setTimeout(() => {
+      history('/');        
+      },2000)
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const data = await getOrcamentos();
@@ -38,9 +53,9 @@ function BasicExample() {
     };
 
     fetchData();
-  }, []); // O array vazio assegura que o efeito seja executado apenas uma vez, ao montar o componente
+  }, [history]); // O array com history assegura que o efeito seja executado ao montar o componente e quando o objeto history mudar
 
-  return (
+  return (   
     <Container>    
       <Accordion defaultActiveKey="0" className='mt-5'>
         <Accordion.Item eventKey="0" style={{ textAlign: "center", marginBottom: "50px" }}>
@@ -58,6 +73,9 @@ function BasicExample() {
                   <th>Fatura</th>
                   <th>Utilizador</th>
                   <th>Laboratório</th>
+                  <th>Serviço</th>
+                  <th>Estado</th>
+                  <th>Data</th>
                 </tr>
               </thead>
               <tbody>
@@ -71,48 +89,16 @@ function BasicExample() {
                     <td>{item.fatura}</td>
                     <td>{item.utilizador_id}</td>
                     <td>{item.laboratorio_id}</td>
+                    <td>{item.servicos.nome}</td>
+                    <td>{item.estadoOrcamentos.estado_id}</td>
+                    <td>{item.estadoOrcamentos.data}</td>
                   </tr>
                 ))}
               </tbody>
             </Table>
           </Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item className="accordion-item2" style={{ marginBottom: "5%" }} eventKey="1">
-          <Accordion.Header>Análises</Accordion.Header>
-          <Accordion.Body>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Data Vencimento</th>
-                  <th>Descrição</th>
-                  <th>Valor</th>
-                  <th>Operações</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                </tr>
-                <tr>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                </tr>
-                <tr>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+        </Accordion.Item>  
+      </Accordion>      
     </Container>
   );
 }

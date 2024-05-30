@@ -38,6 +38,7 @@ export default function FormInput() {
       });
 
       localStorage.setItem("token", response.data.access_token);
+      localStorage.setItem("role_id", response.data.role_id);
       setRoleId(response.data.role_id);
 
       if (response.data.role_id == 1) {
