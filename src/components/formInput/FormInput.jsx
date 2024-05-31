@@ -32,20 +32,25 @@ export default function FormInput() {
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
       localStorage.setItem("token", response.data.access_token);
+      localStorage.setItem("role_id", response.data.role_id);
       setRoleId(response.data.role_id);
 
       if (response.data.role_id == 1) {
-        navigate("/orcamentosfunc"); 
+        navigate("/orcamentosfunc");
       } else if (response.data.role_id == 2) {
-        navigate("/orcamentos"); 
+        navigate("/orcamentos");
+      } else if (response.data.role_id == 3) {
+        navigate("/orcamentos");
       }
-
     } catch (err) {
       setError("Invalid credentials");
     }
@@ -98,7 +103,6 @@ export default function FormInput() {
           {error && <div className="text-danger">{error}</div>}
 
           <BtnLogin onClick={handleSubmit}></BtnLogin>
-
         </Form>
       </div>
     </div>
