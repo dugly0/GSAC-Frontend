@@ -52,7 +52,7 @@ export default function FormInput() {
         navigate("/orcamentos");
       }
     } catch (err) {
-      setError("Invalid credentials");
+      setError("Usuário ou senha incorretos");
     }
   };
 
