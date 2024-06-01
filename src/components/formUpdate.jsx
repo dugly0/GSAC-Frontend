@@ -16,9 +16,14 @@ export default function FormUpdate({ user }) {
   useEffect(() => {
     if (user) {
       setFormData({
-        tipo: user.role_id === 1 ? "Admin" : user.role_id === 2 ? "Cliente" : "Laboratório",
-        idLab: user.utilizador?.idLab || "", 
-        nome: user.utilizador?.nome || user.username || "",
+        tipo:
+          user.role_id === 1
+            ? "Admin"
+            : user.role_id === 2
+            ? "Cliente"
+            : "Laboratório",
+        idLab: user.utilizador?.idLab || "",
+        nome: user.utilizador?.nome || user.username,
         email: user.email || "",
         telefone: user.utilizador?.telefone || "",
         endereco: user.utilizador?.endereco || "",

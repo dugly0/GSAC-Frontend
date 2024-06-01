@@ -6,7 +6,6 @@ import Modal from "react-bootstrap/Modal";
 import FormUpdate from "./formUpdate"; // Certifique-se de que o caminho está correto
 import User from "./User.jsx";
 
-
 export default function ModalUpdate({ isShow, handleClose }) {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [users, setUsers] = useState([]);
@@ -19,7 +18,7 @@ export default function ModalUpdate({ isShow, handleClose }) {
         setUsers(response.data);
         setHasError(false);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error(error);
         setHasError(true);
       }
     };
@@ -42,7 +41,7 @@ export default function ModalUpdate({ isShow, handleClose }) {
       </Modal.Header>
       <Modal.Body>
         {hasError ? (
-          <Alert variant="danger">Error fetching users. Please try again.</Alert>
+          <Alert variant="danger">Erro ao carregar utilizadores.</Alert>
         ) : (
           <>
             {users.map((user) => (

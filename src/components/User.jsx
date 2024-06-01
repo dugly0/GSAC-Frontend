@@ -3,7 +3,7 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function User({ id, utilizador, username, isExpanded, handleCollapseToggle }) {
-  const displayName = utilizador?.nome || "";
+  const displayName = utilizador?.nome || username || "";
 
   return (
     <div className="d-flex align-items-center border-bottom border-black-50">
