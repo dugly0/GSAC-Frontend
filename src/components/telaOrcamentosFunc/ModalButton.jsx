@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import FormOramentos from './FormOrcamentos';
+import FormOramentos from './ModalStatus';
 
 function Example() {
   const [show, setShow] = useState(false);
