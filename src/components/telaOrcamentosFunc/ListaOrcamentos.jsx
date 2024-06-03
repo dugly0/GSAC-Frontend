@@ -6,12 +6,18 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const endpoint = "http://localhost:8080/api/orcamento/orcamento-por-utilizador-id";
-const token = localStorage.getItem('token');  
-const roleID = localStorage.getItem('role_id');
-console.log(roleID);
-
+const getToken = () => {
+  const roleID = localStorage.getItem('role_id');
+  if(roleID != 1) {
+    alert('Você não tem permissão para acessar esta página.');  
+    return;
+  }
+  const token = localStorage.getItem('token');  
+  return token;
+}
 const getOrcamentos = async () => {
-  try {
+  try {    
+    const token = getToken();
     const result = await axios.get(endpoint, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -23,35 +29,24 @@ const getOrcamentos = async () => {
     throw error;
   }
 };
-
 function BasicExample() {
   const [orcamentos, setOrcamentos] = useState([]);
   const [error, setError] = useState(null);
   const history = useNavigate();
-
-  useEffect(() => {
-    // Verifica o roleID e redireciona se necessário
-    if (roleID !== '1') {
-      setTimeout(() => {
-        alert('Você não tem permissão para acessar esta página.');        
-      },1000)
-      setTimeout(() => {
-      history('/');        
-      },2000)
-      return;
-    }
-
-    const fetchData = async () => {
+  useEffect(() => {   
+    const fetchData = async () => {      
       try {
-        const data = await getOrcamentos();
+        const data = await getOrcamentos();        
         setOrcamentos(data);
         setError(null);
+        
       } catch (err) {
-        setError('Failed to fetch orcamentos. Please check your credentials.');
-        setOrcamentos([]);
+        // setError('Failed to fetch orcamentos. Please check your credentials.');
+        // setOrcamentos([]);
+        history('/'); 
+        return;
       }
     };
-
     fetchData();
   }, [history]); // O array com history assegura que o efeito seja executado ao montar o componente e quando o objeto history mudar
 
@@ -73,9 +68,6 @@ function BasicExample() {
                   <th>Fatura</th>
                   <th>Utilizador</th>
                   <th>Laboratório</th>
-                  <th>Serviço</th>
-                  <th>Estado</th>
-                  <th>Data</th>
                 </tr>
               </thead>
               <tbody>
@@ -88,10 +80,7 @@ function BasicExample() {
                     <td>{item.data_entrega}</td>
                     <td>{item.fatura}</td>
                     <td>{item.utilizador_id}</td>
-                    <td>{item.laboratorio_id}</td>
-                    <td>{item.servicos.nome}</td>
-                    <td>{item.estadoOrcamentos.estado_id}</td>
-                    <td>{item.estadoOrcamentos.data}</td>
+                    <td>{item.laboratorio_id}</td>                    
                   </tr>
                 ))}
               </tbody>
