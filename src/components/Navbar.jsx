@@ -2,22 +2,28 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function BasicExample({ tipoPerfil, tipoOrcamento }) {
   const path = tipoPerfil ? "/perfil" : "/perfilfunc";
   const patho = tipoOrcamento ? "/orcamentos" : "/orcamentosfunc";
+  const location = useLocation();
   const isPerfilPage = location.pathname.includes("perfil");
   const nav = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role_id"); 
+    nav("/");
+  };
 
   return (
     <Navbar expand="lg" style={{ backgroundColor: "#820053" }}>
       <Container>
-        <Navbar.Brand onClick={()=>nav(patho)} 
-        style={{
-          cursor:"pointer",
-          color:"white",
-        }}>
+        <Navbar.Brand
+          onClick={() => nav(patho)}
+          style={{ cursor: "pointer", color: "white" }}
+        >
           IPB.Orçamentos
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -33,7 +39,7 @@ export default function BasicExample({ tipoPerfil, tipoOrcamento }) {
                   Perfil
                 </NavDropdown.Item>
               )}
-              <NavDropdown.Item onClick={() => nav("/")}>Sair</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleLogout}>Sair</NavDropdown.Item>
             </NavDropdown>
 
             <div className="d-flex align-items-center">
