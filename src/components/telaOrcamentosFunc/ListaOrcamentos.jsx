@@ -4,6 +4,37 @@ import Accordion from 'react-bootstrap/Accordion';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+// import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
+function MyVerticallyCenteredModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Modal heading
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h4>Centered Modal</h4>
+        <p>
+          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+          consectetur ac, vestibulum at eros.
+        </p>
+        <p>Item ID: {props.itemId}</p> {/* Exibe o item.id */}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
 const endpoint = "http://localhost:8080/api/orcamento/orcamento-por-utilizador-id";
 const getToken = () => {
@@ -32,7 +63,14 @@ const getOrcamentos = async () => {
 function BasicExample() {
   const [orcamentos, setOrcamentos] = useState([]);
   const [error, setError] = useState(null);
+  const [modalShow, setModalShow] = React.useState(false);
+  const [selectedItemId, setSelectedItemId] = React.useState(null);
   const history = useNavigate();
+
+  const handleShowModal = (itemId) => {
+    setSelectedItemId(itemId);
+    setModalShow(true);
+  };
   useEffect(() => {   
     const fetchData = async () => {      
       try {
@@ -68,12 +106,13 @@ function BasicExample() {
                   <th>Fatura</th>
                   <th>Utilizador</th>
                   <th>Laboratório</th>
+                  <th >Status</th>
                 </tr>
               </thead>
               <tbody>
                 {orcamentos.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.id}</td>
+                  <tr key={index} >
+                    <td >{item.id}</td>
                     <td>{item.data_entrada}</td>
                     <td>{item.descricao}</td>
                     <td>{item.preco}</td>
@@ -81,8 +120,11 @@ function BasicExample() {
                     <td>{item.fatura}</td>
                     <td>{item.utilizador_id}</td>
                     <td>{item.laboratorio_id}</td>                    
+                    <td onClick={() => handleShowModal(item.id)}>Status</td>  
+                    <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false) }  itemId={selectedItemId}/>
+                                     
                   </tr>
-                ))}
+                ))}                
               </tbody>
             </Table>
           </Accordion.Body>
