@@ -1,23 +1,26 @@
 .button {
     font-weight: 200;
     justify-content: space-between;
-    background-color: #820053;
-    border-color: transparent;
+    background-color: #820053 !important;
+    border-color: transparent!important;
 }
 
 .button:hover,
 .button:focus {
     background-color: #a20067 !important;
-    border-color: transparent;
+    border-color: transparent!important;
 }
 
 .icon-btn {
     margin-left: 10px;
-    color: #fff;
+    color: #fff !important;
 }
 
 .button-wrapper.loading .button {
     justify-content: space-between;
-    background-color: #820053;
-    border-color: transparent;
+    background-color: #820053!important;
+    border-color: transparent!important;
+}
+a{
+    color: #fff!important;
 }
