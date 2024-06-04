@@ -7,7 +7,6 @@ import Header from "./components/header/Header";
 import FormInput from "./components/formInput/FormInput";
 import AccountServices from "./components/accountServices/AccountServices";
 
-
 function App() {
   const [count, setCount] = useState(0);
 
@@ -17,8 +16,7 @@ function App() {
       <div className="container">
         <Header />
         <FormInput />
-        <div className="d-flex justify-content-center">
-        </div>
+        <div className="d-flex justify-content-center"></div>
         <AccountServices />
       </div>
     </div>
