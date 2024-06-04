@@ -49,7 +49,7 @@ export default function FormInput() {
       } else if (response.data.role_id == 2) {
         navigate("/orcamentos");
       } else if (response.data.role_id == 3) {
-        navigate("/orcamentos");
+        navigate("/orcamentoslab");
       }
     } catch (err) {
       setError("Usuário ou senha incorretos");
