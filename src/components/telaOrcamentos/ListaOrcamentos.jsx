@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MyVerticallyCenteredModal from './ModalStatus';
 
+
 const endpoint = "http://localhost:8080/api/orcamento/orcamento-por-utilizador-id";
 const getToken = () => {
   const roleID = localStorage.getItem('role_id');
@@ -52,8 +53,8 @@ function BasicExample() {
           
         } catch (err) {
           // setError('Failed to fetch orcamentos. Please check your credentials.');
-          // setOrcamentos([]);
-          history('/'); 
+          //setOrcamentos([]);
+          //history('/'); 
           return;
         }
       };
@@ -69,6 +70,7 @@ function BasicExample() {
             <Accordion.Header >Orçamentos</Accordion.Header>
             <Accordion.Body style={{textAlign: "center"}}>
                 <Table striped bordered hover>
+                {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
                     <thead>
                         <tr>
                         <th>#</th>
