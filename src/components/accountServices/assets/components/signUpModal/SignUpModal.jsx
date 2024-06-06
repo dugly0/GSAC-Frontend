@@ -55,7 +55,12 @@ export default function SignUpModal({ isShow, handleClose }) {
       <Modal.Header>
         <Modal.Title>
           <div className="pt-1 mb-2">
-            <img src={logo} alt="logo-ipb" className="img-fluid" />
+            <img
+              src={logo}
+              alt="logo-ipb"
+              className="img-fluid"
+              style={{ width: "250px", height: "auto" }}
+            />
           </div>
         </Modal.Title>
       </Modal.Header>
