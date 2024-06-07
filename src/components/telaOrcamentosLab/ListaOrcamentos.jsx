@@ -94,8 +94,8 @@ function BasicExample() {
                     <td>{item.preco}</td>
                     <td>{item.data_entrega}</td>
                     <td>{item.estado_orcamento.estado}</td>
-                    <td>{item.nome_utilizador}</td>
-                    <td>{item.nome_laboratorio}</td>
+                    <td>{item.utilizador.nome}</td>
+                    <td>{item.laboratorio.nome}</td>
                     <td onClick={() => handleShowModal(item)} className="">
                       <Button variant="outline-info">
                         <svg
