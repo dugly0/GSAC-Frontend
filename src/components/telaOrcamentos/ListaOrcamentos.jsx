@@ -89,9 +89,7 @@ function BasicExample() {
                     <td>{item.descricao}</td>
                     <td>{item.preco}</td>
                     <td>{item.data_entrega}</td>
-                    <td>{item.fatura}</td>
-                    <td>{item.utilizador_id}</td>
-                    <td>{item.laboratorio_id}</td>                    
+                    <td>{item.fatura}</td>                    
                     <td onClick={() => handleShowModal(item.id)}>Status</td>  
                     <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false) }  itemId={selectedItemId}/>
                                      
@@ -106,7 +104,7 @@ function BasicExample() {
         <ModalButton />
         <Accordion>
         <Accordion.Item eventKey="1">
-            <Accordion.Header>Faturas</Accordion.Header>
+            <Accordion.Header>Serviços</Accordion.Header>
             <Accordion.Body>
             <Table striped bordered hover>
                     <thead>
