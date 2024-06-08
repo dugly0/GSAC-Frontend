@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import axios from "axios";
 
-export default function formCreate() {
+export default function FormCreate({ formData, setFormData }) {
   const [laboratorios, setLaboratorios] = useState([]);
-  const [formData, setFormData] = useState({
-    username: "",
-    newPassword: "",
-    nome: "",
-    nif: "",
-    cod_postal: "",
-    endereco: "",
-    telefone: "",
-    idLab: null, // Valor inicial padrão
-    role_id: 2,
-  });
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Obter o token do LocalStorage
+    const token = localStorage.getItem("token");
 
     axios
       .get("http://localhost:8080/api/laboratorio", {
         headers: {
-          Authorization: `Bearer ${token}`, // Incluir o token no cabeçalho da requisição
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -30,14 +20,12 @@ export default function formCreate() {
       })
       .catch((error) => {
         console.error("Erro ao buscar laboratórios:", error);
-        // Lógica para lidar com o erro (ex: token inválido)
       });
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Limpa o idLab se a função não for "Laboratório"
     if (name === "role_id" && value !== "3") {
       setFormData({
         ...formData,
@@ -189,7 +177,7 @@ export default function formCreate() {
             </Form.Select>
           </Form.Group>
         )}
-        <button type="submit">Registrar</button>
+        <Button type="button" onClick={handleSubmit}>Registrar</Button>
       </Form>
     </div>
   );
