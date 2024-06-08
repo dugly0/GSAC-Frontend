@@ -1,25 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar';
 
 const Perfil = () => {
-  const [nome, setNome] = useState("Gustavo Silva");
-  const [email, setEmail] = useState("Gustavo@example.com");
-  const [telefone, setTelefone] = useState("123-456-7890");
-  const [endereco, setEndereco] = useState("Rua dos Bobos, 0");
-  const [codigo, setCodigo] = useState("5300-421");
-  const [nif, setNif] = useState("123456789");
-  const [pass, setPass] = useState("123456");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [nif, setNif] = useState("");
+  const [pass, setPass] = useState(""); // Adicione o estado para a senha
   const [editando, setEditando] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch('http://localhost:8080/api/user/', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setNome(data.utilizador.nome);
+          setEmail(data.email);
+          setTelefone(data.utilizador.telefone || "");
+          setEndereco(data.utilizador.endereco || "");
+          setCodigo(data.utilizador.cod_postal || "");
+          setNif(data.utilizador.nif);
+          setPass(data.password || ""); // Defina a senha se estiver disponível na API
+        } else {
+          console.error("Erro ao buscar dados do usuário:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleEditar = () => {
     setEditando(true);
   };
 
-  const handleSalvar = () => {
-    setEditando(false);
+  const handleSalvar = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8080/api/utilizador/7', { // Supondo que sua API use PUT para atualizar
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token 
+        },
+        body: JSON.stringify({
+          nome,
+          telefone,
+          endereco,
+          cod_postal: codigo,
+          nif,
+          password: pass, // Inclua a senha se necessário
+        })
+      });
+
+      if (response.ok) {
+        setEditando(false);
+        // Lógica para lidar com sucesso (exibir mensagem, etc.)
+      } else {
+        console.error("Erro ao salvar dados do usuário:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
   };
+
   const toggleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
