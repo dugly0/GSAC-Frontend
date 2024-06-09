@@ -10,6 +10,7 @@ import OrcamentosFunc from "./pages/OrcamentosFunc";
 import Orcamentos from "./pages/Orcamentos";
 import OrcamentosLab from "./pages/OrcamentosLab";
 import PerfilLab from "./pages/PerfilLab";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,11 @@ const router = createBrowserRouter([
   },
   {
     path: "orcamentos",
-    element: <Orcamentos />,
+    element: (
+      <PrivateRoute>
+        <Orcamentos />
+      </PrivateRoute>
+    ),
   },
   {
     path: "orcamentosfunc",
