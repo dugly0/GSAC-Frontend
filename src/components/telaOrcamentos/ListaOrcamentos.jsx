@@ -110,6 +110,7 @@ function BasicExample() {
         </Accordion.Item>
         <Accordion/>
         </Accordion>
+        <ModalButton />
         <Accordion defaultActiveKey="0" className='mt-5'>
         <Accordion.Item eventKey="0" style={{textAlign: "right"}}>
             <Accordion.Header >Orçamentos</Accordion.Header>
@@ -146,7 +147,6 @@ function BasicExample() {
         </Accordion.Item>
         <Accordion/>
         </Accordion>
-        <ModalButton />
     </Container>
   );
 }
