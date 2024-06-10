@@ -1,53 +1,70 @@
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import axios from 'axios';
 
 function GridComplexExample() {
+  const [formData, setFormData] = useState({
+    quantidade: '',
+    data_entrega: '',
+    descricao: '',
+    servico: ''
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:8080/api/orcamento', formData)
+        .then(response => {
+            console.log(response.data);
+            // lidando com a resposta
+        })
+        .catch(error => {
+            alert('There was an error!', error);
+        });
+};
+
   return (
-    <Form style={{ textAlign: "center" }}>
+    <Form style={{ textAlign: "center" }} onSubmit={handleSubmit}>
       <h5 style={{ color: "white" }}>Formulário</h5>
 
-      <Form.Group  className="mb-3" controlId="formGridNome">
-        <Form.Control type="text" placeholder="Nome" />
-      </Form.Group>
+      {/* <Form.Group className="mb-3" controlId="quantidade">
+        <Form.Control type="text" placeholder="Quantidade de Serviço" value={formData.quantidade} onChange={handleChange} />
+      </Form.Group> */}
 
-      <Form.Group  className="mb-3" controlId="formGridApelido">
-        <Form.Control type="text" placeholder="Apelido" />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formGridAddress1">
-        <Form.Control type='text' placeholder="Rua ou Avenida/N/Distrito" />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formGridAddress2">
-        <Form.Control type="number" placeholder="Cod. Postal" />
+      <Form.Group className="mb-3" controlId="data_entrega">
+        <Form.Control type="text" placeholder="Data de entrega" value={formData.data_entrega} onChange={handleChange} />
       </Form.Group>
 
       <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridCity">
-          <Form.Control type= "number" placeholder="NIF" />
-        </Form.Group>       
-        
-      </Row>
-      
-        <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridApelido">
+        <Form.Group as={Col} controlId="descricao">
           <Form.Label>Descreva sua solicitação</Form.Label>
-          <Form.Text as="textarea" placeholder=""  rows="5"/>
+          <Form.Control as="textarea" placeholder="" rows="5" value={formData.descricao} onChange={handleChange} />
         </Form.Group>
-        <Form.Group as={Col} controlId="formGridState">
+        <Form.Group as={Col} controlId="servico">
           <Form.Label>Serviço</Form.Label>
-          <Form.Select defaultValue="Choose...">
+          <Form.Select defaultValue="Selecionar Serviço" value={formData.servico} onChange={handleChange}>
             <option>Selecionar Serviço</option>
-            <option>...</option>
-            <option>...</option>
-            <option>...</option>
-            <option>...</option>
+            <option>Serviço 1</option>
+            <option>Serviço 2</option>
+            <option>Serviço 3</option>
+            <option>Serviço 4</option>
           </Form.Select>
-        </Form.Group>        
+        </Form.Group>
       </Row>
-      
+
+      <Button variant="primary" type="submit">
+        Enviar
+      </Button>
     </Form>
   );
 }
