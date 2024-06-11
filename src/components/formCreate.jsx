@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import axios from "axios";
 
-export default function FormCreate({ formData, setFormData }) {
+const FormCreate = forwardRef(({ formData, setFormData }, ref) => {
   const [laboratorios, setLaboratorios] = useState([]);
 
   useEffect(() => {
@@ -41,17 +40,15 @@ export default function FormCreate({ formData, setFormData }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e && e.preventDefault();
 
     const token = localStorage.getItem("token");
-    // Cria uma cópia dos dados do formulário
     const dataToSend = { ...formData };
 
     if (formData.role_id !== "3") {
       dataToSend.idLab = null;
     }
 
-    
     try {
       const response = await axios.post(
         "http://localhost:8080/api/user/register",
@@ -63,11 +60,14 @@ export default function FormCreate({ formData, setFormData }) {
         }
       );
       console.log("Registro bem-sucedido:", response.data);
-
     } catch (error) {
       console.error("Erro ao registrar:", error);
     }
   };
+
+  useImperativeHandle(ref, () => ({
+    handleSubmit,
+  }));
 
   return (
     <div>
@@ -177,8 +177,9 @@ export default function FormCreate({ formData, setFormData }) {
             </Form.Select>
           </Form.Group>
         )}
-        <Button type="button" onClick={handleSubmit}>Registrar</Button>
       </Form>
-    </div>
-  );
-}
+    </div>
+  );
+});
+
+export default FormCreate;

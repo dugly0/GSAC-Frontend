@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import FormCreate from "./formCreate";
@@ -16,9 +16,13 @@ export default function ModalCreate({ isShow, handleClose }) {
     role_id: 2,
   });
 
+  const formCreateRef = useRef();
+
   const handleSubmit = async () => {
-    await FormCreate.handleSubmit(); // Supondo que a função handleSubmit esteja definida no FormCreate
-    handleClose(); // Fechar o modal após a submissão do formulário
+    if (formCreateRef.current) {
+      await formCreateRef.current.handleSubmit();
+      handleClose();
+    }
   };
 
   return (
@@ -29,11 +33,11 @@ export default function ModalCreate({ isShow, handleClose }) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <FormCreate formData={formData} setFormData={setFormData} />
+        <FormCreate ref={formCreateRef} formData={formData} setFormData={setFormData} />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleClose}>Cancelar</Button>
-        <Button onClick={handleSubmit}>Confirmar</Button>
+        <Button onClick={handleSubmit}>Registrar</Button>
       </Modal.Footer>
     </Modal>
   );
