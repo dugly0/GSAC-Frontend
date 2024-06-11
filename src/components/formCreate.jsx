@@ -169,6 +169,7 @@ const FormCreate = forwardRef(({ formData, setFormData }, ref) => {
               value={formData.idLab}
               onChange={handleChange}
             >
+              <option value="">Selecione algum laboratório</option>
               {laboratorios.map((lab) => (
                 <option key={lab.id} value={lab.id}>
                   {lab.nome}
