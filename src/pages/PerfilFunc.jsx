@@ -1,20 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navbar from '../components/Navbar'
 
 const Perfil = () => {
-  const [nome, setNome] = useState("Gustavo Silva");
-  const [email, setEmail] = useState("Gustavo@example.com");
-  const [telefone, setTelefone] = useState("123-456-7890");
-  const [endereco, setEndereco] = useState("Rua dos Bobos, 0");
-  const [codigo, setCodigo] = useState("5300-421");
-  const [nif, setNif] = useState("123456789");
-  const [pass, setPass] = useState("123456");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [nif, setNif] = useState("");
+  const [pass, setPass] = useState("");
   const [editando, setEditando] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const utilizador = 1;
+        const response = await fetch(`http://localhost:8080/api/utilizador/${utilizador}`, {
+          headers: {
+            'Authorization': token 
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setNome(data.utilizador.nome);
+          setEmail(data.email);
+          setTelefone(data.utilizador.telefone || "");
+          setEndereco(data.utilizador.endereco || "");
+          setCodigo(data.utilizador.cod_postal || "");
+          setNif(data.utilizador.nif);
+          setPass(data.password || ""); // Defina a senha se estiver disponível na API
+        } else {
+          console.error("Erro ao buscar dados do usuário:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleEditar = () => {
     setEditando(true);
@@ -23,8 +52,34 @@ const Perfil = () => {
   const handleGerenciar = () => {
     setEditando(false);
   };
-  const handleSalvar = () => {
-    setEditando(false);
+  const handleSalvar = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8080/api/utilizador/1', { // Supondo que sua API use PUT para atualizar
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token 
+        },
+        body: JSON.stringify({
+          nome,
+          telefone,
+          endereco,
+          cod_postal: codigo,
+          nif,
+          password: pass, // Inclua a senha se necessário
+        })
+      });
+
+      if (response.ok) {
+        setEditando(false);
+        // Lógica para lidar com sucesso (exibir mensagem, etc.)
+      } else {
+        console.error("Erro ao salvar dados do usuário:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
   };
   const toggleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
@@ -32,7 +87,7 @@ const Perfil = () => {
 
   return (
     <>
-    <Navbar tipoPerfil={false} tipoOrcamento={false}/>
+    <Navbar tipoPerfil={true} tipoOrcamento={true}/>
     <div className="container mt-5">
     <img src="../src/assets/imagem_perfil.png" alt="foto de perfil" style={{
             width: "150px",
