@@ -6,12 +6,12 @@ const endpoint =
   "http://localhost:8080/api/orcamento/orcamento-por-laboratorio";
 
 function MyVerticallyCenteredModal(props) {
-  const { servicos, estadoOrcamentos } = props.itemId || {};
+  const { servicoOrcamentos, estadoOrcamentos } = props.itemId || {};
 
   const renderServicos = () => {
     const elementos = [];
-    if (servicos) {
-      servicos.forEach((servico) => {
+    if (servicoOrcamentos) {
+      servicoOrcamentos.forEach((servico) => {
         elementos.push(
           <li key={servico.id}>
             <strong>Nome:</strong> {servico.nome}
@@ -66,7 +66,7 @@ function MyVerticallyCenteredModal(props) {
       <Modal.Body>
         <div>
           <h1>Lista de Serviços</h1>
-          {servicos && servicos.length > 0 ? (
+          {servicoOrcamentos && servicoOrcamentos.length > 0 ? (
             <ul>{renderServicos()}</ul>
           ) : (
             <p>Nenhum serviço disponível</p>
