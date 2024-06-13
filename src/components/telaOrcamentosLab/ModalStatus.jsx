@@ -2,16 +2,14 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 
-const endpoint =
-  "http://localhost:8080/api/orcamento/orcamento-por-laboratorio";
-
 function MyVerticallyCenteredModal(props) {
   const { servicos, estadoOrcamentos } = props.itemId || {};
 
-  const renderServicos = () => (    
+  const renderServicos = () => (
     <Table>
       <thead>
         <tr>
+          <th>Id:</th>
           <th>Nome:</th>
           <th>Descrição:</th>
           <th>Preço Unitário:</th>
@@ -20,8 +18,9 @@ function MyVerticallyCenteredModal(props) {
         </tr>
       </thead>
       <tbody>
-        {servicos.map((servico)=> (
+        {servicos.map((servico) => (
           <tr key={servico.id}>
+            <td>{servico.id}</td>
             <td>{servico.nome}</td>
             <td>{servico.descricao}</td>
             <td>{servico.preco_unitario_custo}</td>
@@ -29,8 +28,8 @@ function MyVerticallyCenteredModal(props) {
             <td>{servico.quantidade}</td>
           </tr>
         ))}
-        </tbody>       
-  </Table>
+      </tbody>
+    </Table>
   );
 
   const renderEstados = () => (
@@ -42,8 +41,8 @@ function MyVerticallyCenteredModal(props) {
         </tr>
       </thead>
       <tbody>
-        {estadoOrcamentos.map((estado) => (
-          <tr key={estado.id}>
+        {estadoOrcamentos.map((estado, index) => (
+          <tr key={`${estado.id}-${index}`}>
             <td>{estado.estado}</td>
             <td>{estado.data}</td>
           </tr>
@@ -65,7 +64,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <div>
+        <div>
           <h1>Lista de Serviços</h1>
           {servicos && servicos.length > 0 ? (
             <ul>{renderServicos()}</ul>
