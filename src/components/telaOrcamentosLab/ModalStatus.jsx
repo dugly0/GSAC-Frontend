@@ -8,29 +8,30 @@ const endpoint =
 function MyVerticallyCenteredModal(props) {
   const { servicos, estadoOrcamentos } = props.itemId || {};
 
-  const renderServicos = () => {
-    const elementos = [];
-    if (servicos) {
-      servicos.forEach((servico) => {
-        elementos.push(
-          <li key={servico.id}>
-            <strong>Nome:</strong> {servico.nome}
-            <br />
-            <strong>Descrição:</strong> {servico.descricao}
-            <br />
-            <strong>Preço Unitário Custo:</strong>{" "}
-            {servico.preco_unitario_custo}
-            <br />
-            <strong>Preço Unitário Venda:</strong>{" "}
-            {servico.preco_unitario_venda}
-            <br />
-            <strong>Quantidade:</strong> {servico.quantidade}
-          </li>
-        );
-      });
-    }
-    return elementos;
-  };
+  const renderServicos = () => (    
+    <Table>
+      <thead>
+        <tr>
+          <th>Nome:</th>
+          <th>Descrição:</th>
+          <th>Preço Unitário:</th>
+          <th>Preço de Venda:</th>
+          <th>Quantidade:</th>
+        </tr>
+      </thead>
+      <tbody>
+        {servicos.map((servico)=> (
+          <tr key={servico.id}>
+            <td>{servico.nome}</td>
+            <td>{servico.descricao}</td>
+            <td>{servico.preco_unitario_custo}</td>
+            <td>{servico.preco_unitario_venda}</td>
+            <td>{servico.quantidade}</td>
+          </tr>
+        ))}
+        </tbody>       
+  </Table>
+  );
 
   const renderEstados = () => (
     <Table>
@@ -64,7 +65,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div>
+      <div>
           <h1>Lista de Serviços</h1>
           {servicos && servicos.length > 0 ? (
             <ul>{renderServicos()}</ul>
