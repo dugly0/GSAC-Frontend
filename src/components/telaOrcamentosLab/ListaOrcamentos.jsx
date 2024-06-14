@@ -5,6 +5,7 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MyVerticallyCenteredModal from "./ModalStatus";
+import EditOrcamentoModal from "./EditOrcamentoModal";
 
 const endpoint =
   "http://localhost:8080/api/orcamento/orcamento-por-laboratorio";
@@ -37,6 +38,13 @@ function BasicExample() {
   const [modalShow, setModalShow] = React.useState(false);
   const [selectedItemId, setSelectedItemId] = useState([]);
   const history = useNavigate();
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const [orcamentoEdit, setOrcamentoEdit] = useState(null);
+
+  const handleEdit = (orcamento) => {
+    setOrcamentoEdit(orcamento);
+    setShowModalEdit(true);
+  };
 
   const handleShowModal = (itemId) => {
     setSelectedItemId(itemId);
@@ -116,7 +124,7 @@ function BasicExample() {
                           </svg>
                         </Button>{" "}
                       </td>
-                      <td>
+                      <td onClick={() => handleEdit(item)}>
                         <Button variant="outline-info">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -131,6 +139,18 @@ function BasicExample() {
                         </Button>{" "}
                       </td>
                     </tr>
+                    {/* Renderiza o modal de edição apenas para o orçamento selecionado */}
+                    {orcamentoEdit && orcamentoEdit.id === item.id && (
+                      <EditOrcamentoModal
+                        show={showModalEdit}
+                        onHide={() => setShowModalEdit(false)}
+                        orcamento={orcamentoEdit}
+                        onEdit={(updatedOrcamento) => {
+                          // Lógica para atualizar o orçamento na API e no estado local
+                          // ...
+                        }}
+                      />
+                    )}
                     {/* Renderiza o modal apenas para o orçamento selecionado */}
                     {selectedItemId === item.id &&
                       modalShow && ( // Adicionado modalShow na condição
