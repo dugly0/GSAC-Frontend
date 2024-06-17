@@ -42,6 +42,7 @@ export default function FormInput() {
 
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("role_id", response.data.role_id);
+      localStorage.setItem('user_id', response.data.user_id);
       setRoleId(response.data.role_id);
 
       if (response.data.role_id == 1) {

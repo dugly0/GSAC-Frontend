@@ -1,0 +1,24 @@
+
+/* Buttons */
+.button-perfil, #btn-1, #btn-2 {
+    background-color: #820053;
+    color: white;
+    border: 1px solid #820053;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button-perfil:hover, #btn-1:hover, #btn-2:hover {
+    background-color: #6a0043;
+    border: 1px solid #820053;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 767px) {
+.button-perfil {
+    background-color: #820053 !important;
+    color: white;
+    border: 1px solid #820053;
+    text-decoration: none;
+}
+}
