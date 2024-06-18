@@ -75,9 +75,9 @@ export default function RenderNavbar({ tipoOrcamento }) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto"></Nav>
           <Nav className="ml-auto">
-            <NavDropdown title={<span style={{ color: 'white' }}>{nome}</span>} id="basic-nav-dropdown">
-              <NavDropdown.Item onClick={() => nav(patho + path)}>Perfil</NavDropdown.Item>
-              <NavDropdown.Item onClick={handleLogout}>Sair</NavDropdown.Item>
+            <NavDropdown className="nav-name" title={<span>{nome}</span>}>
+              <NavDropdown.Item className="drop-custom" onClick={() => nav(patho + path)}>Perfil</NavDropdown.Item>
+              <NavDropdown.Item className="drop-custom" onClick={handleLogout}>Sair</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
