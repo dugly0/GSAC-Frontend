@@ -21,10 +21,8 @@ export default function BasicExample({ tipoOrcamento }) {
   let path;
   if (roleId === "1") {
     path = `/perfilfunc`;
-  } else if (roleId === "2") {
+  } else if (roleId === "2" || roleId === "3") {
     path = `/perfil`;
-  } else if (roleId === "3") {
-    path = `/perfillab`;
   }
 
   const location = useLocation();
