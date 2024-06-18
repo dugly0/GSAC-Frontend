@@ -1,4 +1,4 @@
-import "./assets/css/styles.css";
+import "./assets/css/footer.css";
 import "bootstrap/dist/css/bootstrap.css";
 import {
   faArrowUpRightFromSquare,
@@ -13,7 +13,7 @@ import ipbFooter from "./assets/images/ipb-footer.png";
 export default function Footer() {
   return (
     <footer>
-    <div className="border-bottom border-black-50 mt-5"></div>
+      <div className="mt-2"></div>
       <div className="d-lg-flex d-md-flex justify-content-between container mt-2">
         <div className="row clearfix">
           <div className="col-md-6">
@@ -34,7 +34,7 @@ export default function Footer() {
                 </div>
                 <div className="col-md">
                   <FontAwesomeIcon id="icon-footer" icon={faArrowUpRightFromSquare} />
-                  <a href="http://suporte.ipb.pt"> Página de Suporte</a>
+                  <a id="pg-sup" href="http://suporte.ipb.pt"> Página de Suporte</a>
                 </div>
                 <div id="line" className="text-muted small strong innerB ng-binding">
                   <hr className="small-margin"></hr>
@@ -45,7 +45,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </footer>
   );
 }

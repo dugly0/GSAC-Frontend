@@ -4,7 +4,7 @@ import ModalCreate from "../components/modalCreate";
 import Button from "react-bootstrap/Button";
 import '../assets/css/Gerenciar.css'
 import { useNavigate } from "react-router-dom";
-import Navbar from '../components/Navbar'
+import Navbar from '../components/navbar/Navbar'
 
 export default function Gerenciar() {
   const [showU, setShowU] = useState(false);

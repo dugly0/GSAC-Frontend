@@ -1,18 +1,17 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./assets/css/styles.css";
-import { Link } from "react-router-dom";
-import NavBar from "./components/navbar/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Header from "./components/header/Header";
-import FormInput from "./components/formInput/FormInput";
-import AccountServices from "./components/accountServices/AccountServices";
+import FormInput from "./components/telaLogin/formInput/FormInput";
+import AccountServices from "./components/telaLogin/accountServices/AccountServices";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div className="App">
-      <NavBar />
+      <Navbar />
       <div className="container">
         <Header />
         <FormInput />

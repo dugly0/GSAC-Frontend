@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/navbar/Navbar';
 import axios from 'axios';
 import './assets/css/perfis.css';
 
