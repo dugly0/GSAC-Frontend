@@ -4,7 +4,7 @@ import App from "./App";
 import Gerenciar from "./pages/Gerenciar";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Footer from "./components/footer/Footer";
-import Perfil from "./pages/Perfil";
+import Perfil from "./pages/Perfis/Perfil";
 import PerfilFunc from "./pages/Perfis/PerfilFunc";
 import OrcamentosFunc from "./pages/OrcamentosFunc";
 import Orcamentos from "./pages/Orcamentos";
