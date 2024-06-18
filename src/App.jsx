@@ -2,7 +2,7 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./assets/css/styles.css";
 import Navbar from "./components/navbar/Navbar";
-import Header from "./components/header/Header";
+import Header from "./components/telaLogin/header/Header";
 import FormInput from "./components/telaLogin/formInput/FormInput";
 import AccountServices from "./components/telaLogin/accountServices/AccountServices";
 
