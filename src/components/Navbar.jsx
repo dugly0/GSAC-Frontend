@@ -1,12 +1,32 @@
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function BasicExample({ tipoPerfil, tipoOrcamento }) {
-  const path = tipoPerfil ? "/perfil" : "/perfilfunc";
-  const patho = tipoOrcamento ? "/orcamentos" : "/orcamentosfunc";
+export default function BasicExample({ tipoOrcamento }) {
+  const roleId = localStorage.getItem('role_id');
+
+  let patho;
+  if (roleId === "1"){
+    patho = `/orcamentosfunc`;
+  } else if (roleId === "2") {
+    patho = `/orcamentos`;
+  } else if (roleId === "3"){
+    patho = `/orcamentoslab`;
+  }
+
+  let path;
+  if (roleId === "1") {
+    path = `/perfilfunc`;
+  } else if (roleId === "2") {
+    path = `/perfil`; 
+  } else if (roleId === "3"){
+    path = `/perfillab`;
+  }
+
+  // Obtendo a localização atual
   const location = useLocation();
   const isPerfilPage = location.pathname.includes("perfil");
   const nav = useNavigate();
@@ -21,7 +41,7 @@ export default function BasicExample({ tipoPerfil, tipoOrcamento }) {
     <Navbar expand="lg" style={{ backgroundColor: "#820053" }}>
       <Container>
         <Navbar.Brand
-          onClick={() => nav(patho)}
+          onClick={() => nav(pathPrefix)}
           style={{ cursor: "pointer", color: "white" }}
         >
           IPB.Orçamentos
@@ -41,15 +61,6 @@ export default function BasicExample({ tipoPerfil, tipoOrcamento }) {
               )}
               <NavDropdown.Item onClick={handleLogout}>Sair</NavDropdown.Item>
             </NavDropdown>
-
-            <div className="d-flex align-items-center">
-              <img
-                src="../../src/assets/imagem_perfil.png"
-                alt="Foto do usuário"
-                className="rounded-circle"
-                style={{ width: "40px", height: "40px" }}
-              />
-            </div>
           </Nav>
         </Navbar.Collapse>
       </Container>
