@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navbar from '../../components/Navbar';
 import axios from 'axios';
@@ -13,8 +13,23 @@ const Perfil = () => {
   const [codigo, setCodigo] = useState("");
   const [nif, setNif] = useState("");
   const [pass, setPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
   const [editando, setEditando] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [initialProfileData, setInitialProfileData] = useState({});
+  const [message, setMessage] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageType, setMessageType] = useState(''); // 'error' ou 'success'
+
+  // Função para mostrar a mensagem
+  const showMessageAuto = (msg, type) => {
+    setMessage(msg);
+    setMessageType(type);
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 4000);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -27,17 +42,30 @@ const Perfil = () => {
           }
         });
 
-        const userData = response.data; // Dados retornados pela API
+        const userData = response.data;
 
-        setNome(userData.utilizador.nome);
-        setEmail(userData.email);
-        setTelefone(userData.utilizador.telefone || "");
-        setEndereco(userData.utilizador.endereco || "");
-        setCodigo(userData.utilizador.cod_postal || "");
-        setNif(userData.utilizador.nif);
-        setPass(""); // Defina a senha se estiver disponível na API
+        const initialData = {
+          nome: userData.utilizador.nome,
+          email: userData.email,
+          telefone: userData.utilizador.telefone || "",
+          endereco: userData.utilizador.endereco || "",
+          codigo: userData.utilizador.cod_postal || "",
+          nif: userData.utilizador.nif,
+        };
+
+        setNome(initialData.nome);
+        setEmail(initialData.email);
+        setTelefone(initialData.telefone);
+        setEndereco(initialData.endereco);
+        setCodigo(initialData.codigo);
+        setNif(initialData.nif);
+        setPass("");
+        setConfirmPass("");
+        setMostrarSenha(false); // Garante que a senha não seja mostrada ao carregar os dados
+        setInitialProfileData(initialData);
       } catch (error) {
         console.error("Erro na requisição:", error);
+        showMessageAuto('Erro ao buscar dados do usuário.', 'error');
       }
     };
 
@@ -53,11 +81,31 @@ const Perfil = () => {
   };
 
   const handleSalvar = async () => {
+    if (pass !== confirmPass) {
+      showMessageAuto('As senhas não coincidem. Por favor, verifique.', 'error');
+      return;
+    }
+
+    const hasChanges = (
+      nome !== initialProfileData.nome ||
+      email !== initialProfileData.email ||
+      telefone !== initialProfileData.telefone ||
+      endereco !== initialProfileData.endereco ||
+      codigo !== initialProfileData.codigo ||
+      nif !== initialProfileData.nif ||
+      pass !== ""
+    );
+
+    if (!hasChanges) {
+      showMessageAuto('Nenhuma alteração realizada.', 'default');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('user_id');
       if (!token) {
-        alert("Token de autenticação não encontrado. Por favor, faça login novamente.");
+        showMessageAuto('Por favor, faça login novamente.', 'error');
         return;
       }
 
@@ -71,7 +119,7 @@ const Perfil = () => {
           endereco,
           cod_postal: codigo,
           nif,
-          password: pass // Inclui a senha no payload
+          password: pass
         },
         {
           headers: {
@@ -82,22 +130,25 @@ const Perfil = () => {
       );
 
       if (response.status === 200) {
+        showMessageAuto('Alterações salvas com sucesso!', 'success');
         setEditando(false);
-        alert("Dados atualizados com sucesso!");
+        setPass("");
+        setConfirmPass("");
+        setMostrarSenha(false);
+        setInitialProfileData({ nome, email, telefone, endereco, codigo, nif }); // Atualiza os dados iniciais
       } else {
         console.error("Erro ao salvar dados do usuário:", response.statusText);
-        alert("Erro ao salvar dados do usuário. Por favor, tente novamente.");
+        showMessageAuto('Erro ao salvar dados. Por favor, tente novamente.', 'error');
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        alert("Permissão negada. Por favor, verifique suas credenciais.");
+        showMessageAuto('Permissão negada. Por favor, verifique suas credenciais.', 'error');
       } else {
         console.error("Erro na requisição:", error);
-        alert("Erro na requisição. Por favor, verifique sua conexão ou tente novamente mais tarde.");
+        showMessageAuto('Erro na requisição. Por favor, verifique sua conexão ou tente novamente mais tarde.', 'error');
       }
     }
   };
-
 
   const toggleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
@@ -106,30 +157,10 @@ const Perfil = () => {
   return (
     <>
       <Navbar tipoPerfil={true} tipoOrcamento={true} />
-      <div style={{ paddingTop: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Form>
-          {editando ? (
-            <div className="container my-3">
-              <div className="d-flex flex-wrap gap-3 flex-md-row flex-column">
-                <Button className='button-perfil' as={Link} to="/orcamentosfunc/perfilfunc" variant="secondary" onClick={handleGerenciar}>Voltar</Button>{' '}
-                <Button className='button-perfil' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
-              </div>
-            </div>
-          ) : (
-            <div className='container my-3'>
-              <div className="d-flex flex-wrap gap-3 flex-md-row flex-column">
-                <Button className='button-perfil' as={Link} to="/orcamentosfunc" onClick={handleGerenciar}>Voltar</Button>{' '}
-                <Button className='button-perfil' id='btn-1' as={Link} to="gerenciar" onClick={handleGerenciar}>Gerenciar Utilizadores</Button>{' '}
-                <Button className='button-perfil' id='btn-2' onClick={handleEditar}>Editar Perfil</Button>{' '}
-              </div>
-            </div>
-          )}
-        </Form>
-      </div>
-      <div className="container mt-5 col-md-4">
+      <div className="container mt-3 col-md-4">
         <h1 className="text-center">Perfil</h1>
         <Form>
-          <Form.Group className="mb-3" controlId="formNome">
+          <Form.Group className="mb-1" controlId="formNome">
             <Form.Label><b>Nome:</b></Form.Label>
             <Form.Control
               type="text"
@@ -139,7 +170,7 @@ const Perfil = () => {
               readOnly={!editando}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formEmail">
+          <Form.Group className="mb-1" controlId="formEmail">
             <Form.Label><b>Email:</b></Form.Label>
             <Form.Control
               type="email"
@@ -149,7 +180,7 @@ const Perfil = () => {
               readOnly={!editando}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formTelefone">
+          <Form.Group className="mb-1" controlId="formTelefone">
             <Form.Label><b>Telefone:</b></Form.Label>
             <Form.Control
               type="tel"
@@ -159,7 +190,7 @@ const Perfil = () => {
               readOnly={!editando}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formEndereco">
+          <Form.Group className="mb-1" controlId="formEndereco">
             <Form.Label><b>Endereço:</b></Form.Label>
             <Form.Control
               type="text"
@@ -169,7 +200,7 @@ const Perfil = () => {
               readOnly={!editando}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formCodigo">
+          <Form.Group className="mb-1" controlId="formCodigo">
             <Form.Label><b>Código postal:</b></Form.Label>
             <Form.Control
               type="text"
@@ -179,7 +210,7 @@ const Perfil = () => {
               readOnly={!editando}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formNif">
+          <Form.Group className="mb-1" controlId="formNif">
             <Form.Label><b>Nif:</b></Form.Label>
             <Form.Control
               type="number"
@@ -189,18 +220,32 @@ const Perfil = () => {
               readOnly={!editando}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formPassword">
-            <Form.Label><b>Palavra-passe:</b></Form.Label>
-            <div className="d-flex align-items-center">
-              <Form.Control
-                type={mostrarSenha ? "text" : "password"}
-                placeholder="Digite sua palavra-passe"
-                value={pass}
-                onChange={(e) => setPass(e.target.value)}
-                readOnly={!editando} // Permite edição apenas quando editando
-              />
-            </div>
-            {editando && (
+          {editando && (
+            <>
+              <Form.Group className="mb-1" controlId="formPassword">
+                <Form.Label><b>Palavra-passe:</b></Form.Label>
+                <div className="d-flex align-items-center">
+                  <Form.Control
+                    type={mostrarSenha ? "text" : "password"}
+                    placeholder="Alterar Palavra-passe"
+                    value={pass}
+                    onChange={(e) => setPass(e.target.value)}
+                    readOnly={!editando}
+                  />
+                </div>
+              </Form.Group>
+              <Form.Group className="mb-1" controlId="formConfirmPassword">
+                <Form.Label><b>Confirmar Palavra-passe:</b></Form.Label>
+                <div className="d-flex align-items-center">
+                  <Form.Control
+                    type={mostrarSenha ? "text" : "password"}
+                    placeholder="Confirmar Nova Palavra-passe"
+                    value={confirmPass}
+                    onChange={(e) => setConfirmPass(e.target.value)}
+                    readOnly={!editando}
+                  />
+                </div>
+              </Form.Group>
               <div>
                 <Form.Check
                   type="checkbox"
@@ -210,12 +255,37 @@ const Perfil = () => {
                   style={{ marginTop: "10px" }}
                 />
               </div>
-            )}
-          </Form.Group>
+              {pass !== confirmPass && (
+                <div style={{ color: 'red', marginTop: '10px' }}>
+                  As senhas não coincidem.
+                </div>
+              )}
+            </>
+          )}
+        </Form>
+        {showMessage && <p className={`message ${messageType}`}>{message}</p>}
+      </div>
+      <div className="pt-3 pb-2 d-flex justify-content-center align-items-center">
+        <Form>
+          {editando ? (
+            <div className="container my-1">
+              <div className="d-flex flex-wrap gap-3 flex-md-row flex-column">
+                <Button className='button-perfil' as={Link} to="/orcamentosfunc/perfilfunc" onClick={handleGerenciar}>Voltar</Button>{' '}
+                <Button className='button-perfil' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
+              </div>
+            </div>
+          ) : (
+            <div className='container my-1'>
+              <div className="d-flex flex-wrap gap-3 flex-md-row flex-column">
+                <Button className='button-perfil' as={Link} to="/orcamentosfunc" onClick={handleGerenciar}>Voltar</Button>{' '}
+                <Button className='button-perfil' id='btn-1' as={Link} to="gerenciar" onClick={handleGerenciar}>Gerenciar Utilizadores</Button>{' '}
+                <Button className='button-perfil' id='btn-2' onClick={handleEditar}>Editar Perfil</Button>{' '}
+              </div>
+            </div>
+          )}
         </Form>
       </div>
     </>
   );
 }
-
 export default Perfil;
