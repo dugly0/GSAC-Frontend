@@ -30,7 +30,13 @@ const Perfil = () => {
       setShowMessage(false);
     }, 4000);
   };
-
+  const roleId = localStorage.getItem('role_id');
+  const backPagePerfil = () => {
+    return roleId === "2" ? "/orcamentos/perfil" : "/orcamentoslab/perfil";
+  }
+  const backPageOrcamentos = () => {
+    return roleId === "2" ? "/orcamentos" : "/orcamentoslab";
+  }
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -45,12 +51,12 @@ const Perfil = () => {
         const userData = response.data;
 
         const initialData = {
-          nome: userData.utilizador.nome,
-          email: userData.email,
+          nome: userData.utilizador.nome || "",
+          email: userData.email || "",
           telefone: userData.utilizador.telefone || "",
           endereco: userData.utilizador.endereco || "",
           codigo: userData.utilizador.cod_postal || "",
-          nif: userData.utilizador.nif,
+          nif: userData.utilizador.nif || "",
         };
 
         setNome(initialData.nome);
@@ -269,14 +275,14 @@ const Perfil = () => {
           {editando ? (
             <div className="container my-1">
               <div className="d-flex flex-wrap gap-3 flex-md-row flex-column">
-                <Button className='button-perfil' as={Link} to="/orcamentos/perfil" onClick={handleGerenciar}>Voltar</Button>{' '}
+                <Button className='button-perfil' as={Link} to={backPagePerfil()} onClick={handleGerenciar}>Voltar</Button>{' '}
                 <Button className='button-perfil' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
               </div>
             </div>
           ) : (
             <div className='container my-1'>
               <div className="d-flex flex-wrap gap-3 flex-md-row flex-column">
-                <Button className='button-perfil' as={Link} to="/orcamentos" onClick={handleGerenciar}>Voltar</Button>{' '}
+                <Button className='button-perfil' as={Link} to={backPageOrcamentos()} onClick={handleGerenciar}>Voltar</Button>{' '}
                 <Button className='button-perfil' id='btn-2' onClick={handleEditar}>Editar Perfil</Button>{' '}
               </div>
             </div>
