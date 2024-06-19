@@ -77,7 +77,7 @@ function BasicExample() {
     );
     return ultimoEstado.estado === "Aceito";
   });
-
+  // Lógica para filtrar apenas orçamentos aceitos
   const orcamentosNaoAceitos = orcamentos.filter(
     (orcamento) => !orcamentosAceitos.includes(orcamento)
   );
