@@ -1,0 +1,16 @@
+#nav-out{
+    background-color: rgb(245, 245, 245);
+    height: 40px;
+}
+
+.nav-name span{
+    color: white;
+}
+
+.drop-custom{
+    color: black !important;
+}
+
+.drop-custom:hover{
+    background-color: rgb(130, 0, 83, 0.1);
+}

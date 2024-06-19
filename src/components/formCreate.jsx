@@ -1,72 +1,186 @@
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import Form from "react-bootstrap/Form";
+import axios from "axios";
 
-export default function formCreate() {
+const FormCreate = forwardRef(({ formData, setFormData }, ref) => {
+  const [laboratorios, setLaboratorios] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:8080/api/laboratorio", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setLaboratorios(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar laboratórios:", error);
+      });
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "role_id" && value !== "3") {
+      setFormData({
+        ...formData,
+        [name]: value,
+        idLab: null,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e && e.preventDefault();
+
+    const token = localStorage.getItem("token");
+    const dataToSend = { ...formData };
+
+    if (formData.role_id !== "3") {
+      dataToSend.idLab = null;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/user/register",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Registro bem-sucedido:", response.data);
+    } catch (error) {
+      console.error("Erro ao registrar:", error);
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    handleSubmit,
+  }));
+
   return (
     <div>
-      <Form.Group className="mb-3">
-        <Form.Label>Tipo</Form.Label>
-        <Form.Select className="form-control" defaultValue="" disabled={false}>
-          <option value="" disabled hidden>
-            Selecione o tipo da conta
-          </option>
-          <option>admin</option>
-          <option>cliente</option>
-          <option>gabinete</option>
-          <option>chefelab</option>
-          <option>teclab</option>
-        </Form.Select>
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>Id Laboratório</Form.Label>
-        <Form.Control
-          type="number"
-          placeholder="Escolha o Id do laboratório"
-          enable
-        />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>Nome</Form.Label>
-        <Form.Control type="text" placeholder="Nome Completo" enable />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="campoEmail">
-        <Form.Label>Email</Form.Label>
-        <Form.Control type="email" placeholder="exemplo@email.com" />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>Telefone</Form.Label>
-        <Form.Control type="text" placeholder="000 000 000" enable />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>Endereço</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Rua ou Avenida/N/Distrito"
-          enable
-        />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>Cód. Postal</Form.Label>
-        <Form.Control type="text" placeholder="Insira o código postal" enable />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>Nif</Form.Label>
-        <Form.Control type="number" placeholder="Insira o Nif" enable />
-      </Form.Group>
-      <Form.Group controlId="foto" className="mb-3">
-        <Form.Label>Foto</Form.Label>
-        <Form.Control type="file" />
-      </Form.Group>
-      <Form.Label htmlFor="inputPassword5">Senha</Form.Label>
-      <Form.Control
-        type="password"
-        id="inputPassword5"
-        aria-describedby="passwordHelpBlock"
-        placeholder="Insira a senha"
-      />
-      <Form.Text id="passwordHelpBlock" muted>
-        Sua senha deve ter de 8 a 20 caracteres, conter letras e números, e não
-        deve conter espaços, caracteres especiais ou emoji.
-      </Form.Text>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Função</Form.Label>
+          <Form.Select
+            name="role_id"
+            value={formData.role_id}
+            onChange={handleChange}
+          >
+            <option value={1}>Admin</option>
+            <option value={2}>Cliente</option>
+            <option value={3}>Laboratório</option>
+          </Form.Select>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Nome de usuário</Form.Label>
+          <Form.Control
+            type="text"
+            name="username"
+            placeholder="Nome de usuário"
+            value={formData.username}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Senha</Form.Label>
+          <Form.Control
+            type="password"
+            name="newPassword"
+            placeholder="Senha"
+            value={formData.newPassword}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Nome Completo</Form.Label>
+          <Form.Control
+            type="text"
+            name="nome"
+            placeholder="Nome Completo"
+            value={formData.nome}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>NIF</Form.Label>
+          <Form.Control
+            type="text"
+            name="nif"
+            placeholder="NIF"
+            value={formData.nif}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Código Postal</Form.Label>
+          <Form.Control
+            type="text"
+            name="cod_postal"
+            placeholder="Código Postal"
+            value={formData.cod_postal}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Endereço</Form.Label>
+          <Form.Control
+            type="text"
+            name="endereco"
+            placeholder="Endereço"
+            value={formData.endereco}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Telefone</Form.Label>
+          <Form.Control
+            type="text"
+            name="telefone"
+            placeholder="Telefone"
+            value={formData.telefone}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        {formData.role_id === "3" && (
+          <Form.Group className="mb-3">
+            <Form.Label>Laboratório</Form.Label>
+            <Form.Select
+              name="idLab"
+              value={formData.idLab}
+              onChange={handleChange}
+            >
+              <option value="">Selecione algum laboratório</option>
+              {laboratorios.map((lab) => (
+                <option key={lab.id} value={lab.id}>
+                  {lab.nome}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        )}
+      </Form>
     </div>
   );
-}
+});
+
+export default FormCreate;
