@@ -7,7 +7,7 @@ const endpoint = "http://localhost:8080/api/orcamento/find-estado-by-id-orcament
 
 
 function MyVerticallyCenteredModal(props) {
-  const { servicoOrcamentos, estadoOrcamentos  } = props.itemId || {};
+  const { servicoOrcamentos, estadoOrcamentos  } = props.orcamento || {};
   const renderServicos = () => (    
     <Table>
       <thead>
