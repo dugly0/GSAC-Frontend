@@ -13,6 +13,12 @@
     border: none;
 }
 
+#pg-sup{
+    text-decoration: none !important;
+    color: grey !important;
+    background-color: transparent !important;   
+}
+
 a {
     text-decoration: none;
     color: grey;

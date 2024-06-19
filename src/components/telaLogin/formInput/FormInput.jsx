@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import "./assets/css/styles.css";
+import "./assets/css/formInput.css";
 import "bootstrap/dist/css/bootstrap.css";
 import InputGroup from "react-bootstrap/InputGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,6 +42,7 @@ export default function FormInput() {
 
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("role_id", response.data.role_id);
+      localStorage.setItem('user_id', response.data.user_id);
       setRoleId(response.data.role_id);
 
       if (response.data.role_id == 1) {
@@ -66,7 +67,7 @@ export default function FormInput() {
                 <FontAwesomeIcon icon={faUserAlt}></FontAwesomeIcon>
               </InputGroup.Text>
               <Form.Control
-                type=""
+                type="email"
                 placeholder="Email"
                 aria-label="Email"
                 aria-describedby="basic-addon1"
