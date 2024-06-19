@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import axios from 'axios';
 
 
-function EditOrcamentoModal(props) {
+function EditarOrc(props) {
   const { show, onHide, orcamento, onEdit } = props; 
   const[servicos, setServicos] = useState([]);
   const[laboratorios, setLaboratorios] = useState([]);
@@ -183,4 +183,4 @@ function EditOrcamentoModal(props) {
   );
 }
 
-export default EditOrcamentoModal;
+export default EditarOrc;

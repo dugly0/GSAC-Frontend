@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MyVerticallyCenteredModal from './ModalStatus';
-import EditOrcamentoModal from "./EditOrcamentoModal";
+import EditarOrc from "./EditarOrc";
 
 const endpoint = "http://localhost:8080/api/orcamento/orcamento-por-utilizador-id";
 const getToken = () => {
@@ -123,7 +123,7 @@ function BasicExample() {
                     </tr>
                     {/* Renderiza o modal de edição apenas para o orçamento selecionado */}
                     {orcamentoEdit && orcamentoEdit.id === item.id && (
-                      <EditOrcamentoModal
+                      <EditarOrc
                         show={showModalEdit}
                         onHide={() => setShowModalEdit(false)}
                         orcamento={orcamentoEdit}
