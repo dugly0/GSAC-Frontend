@@ -1,0 +1,18 @@
+Button:hover{
+    background-color: #6a0043 !important;
+}
+
+.filter-custom{
+    border-color: #820053;
+    cursor: pointer;    
+}
+
+.filter-custom:focus {
+    border-color: #820053;
+    box-shadow: 0 0 5px rgba(130, 0, 83, 0.5);
+}
+
+.filter-custom:focus{
+    border-color: #820053;
+    box-shadow: #820053;
+}

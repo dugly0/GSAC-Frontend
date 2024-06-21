@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import axios from "axios";
 
-export default function FormUpdate({ user }) {
+export default function FormUpdate({ user, utilizador }) {
   const [formData, setFormData] = useState({
-    tipo: "",
+    role_id: "",
     idLab: "",
+    username: "",
     nome: "",
     email: "",
     telefone: "",
@@ -13,17 +16,16 @@ export default function FormUpdate({ user }) {
     nif: "",
   });
 
+  const [laboratorios, setLaboratorios] = useState([]);
+  const [fetching, setFetching] = useState(false);
+
   useEffect(() => {
     if (user) {
       setFormData({
-        tipo:
-          user.role_id === 1
-            ? "Admin"
-            : user.role_id === 2
-            ? "Cliente"
-            : "Laboratório",
+        role_id: user.role_id || "",
         idLab: user.utilizador?.idLab || "",
-        nome: user.utilizador?.nome || user.username,
+        username: user.username || "",
+        nome: user.utilizador?.nome || "",
         email: user.email || "",
         telefone: user.utilizador?.telefone || "",
         endereco: user.utilizador?.endereco || "",
@@ -31,7 +33,26 @@ export default function FormUpdate({ user }) {
         nif: user.utilizador?.nif || "",
       });
     }
-  }, [user]);
+
+    if (!fetching) {
+      setFetching(true);
+      const fetchLaboratorios = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await axios.get('http://localhost:8080/api/laboratorio', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            }
+          });
+          setLaboratorios(response.data);
+        } catch (error) {
+          console.error("Erro ao buscar laboratórios:", error);
+        }
+      };
+
+      fetchLaboratorios();
+    }
+  }, [user, utilizador, fetching]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -41,39 +62,114 @@ export default function FormUpdate({ user }) {
     }));
   };
 
+  const handleSalvar = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      let role_id;
+      switch (formData.role_id) {
+        case "Admin":
+          role_id = 1;
+          break;
+        case "Cliente":
+          role_id = 2;
+          break;
+        case "Laboratório":
+          role_id = 3;
+          break;
+        default:
+          role_id = user.role_id;
+      }
+
+      const userResponse = await axios.put(
+        `http://localhost:8080/api/user/${user.id}`,
+        {
+          username: formData.username,
+          email: formData.email,
+          role_id: role_id,
+          idLab: formData.idLab,
+          nome: formData.nome,
+          telefone: formData.telefone,
+          endereco: formData.endereco,
+          cod_postal: formData.cod_postal,
+          nif: formData.nif,
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (userResponse.status === 200) {
+        alert('Alterações salvas com sucesso!');
+      } else {
+        console.error("Erro ao salvar dados do usuário:");
+        alert('Erro ao salvar dados. Por favor, tente novamente.');
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        alert('Permissão negada. Por favor, verifique suas credenciais.');
+      } else {
+        console.error("Erro na requisição:", error);
+        alert('Erro na requisição. Por favor, verifique sua conexão ou tente novamente mais tarde.');
+      }
+    }
+  };
+
   return (
     <div>
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-1">
         <Form.Label>Tipo</Form.Label>
         <Form.Select
           className="form-control"
-          value={formData.tipo}
-          name="tipo"
+          value={formData.role_id}
+          name="role_id"
           onChange={handleChange}
           disabled={false}
         >
           <option value="" disabled hidden>
             Selecione o tipo da conta
           </option>
-          <option>Admin</option>
-          <option>Cliente</option>
-          <option>Laboratório</option>
+          <option value="Admin">Admin</option>
+          <option value="Cliente">Cliente</option>
+          <option value="Laboratório">Laboratório</option>
         </Form.Select>
       </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Label>Id Laboratório</Form.Label>
-        <Form.Control
-          type="number"
-          placeholder="Escolha o Id do laboratório"
+      <Form.Group className="mb-1">
+        <Form.Label>Laboratório</Form.Label>
+        <Form.Select
+          className="form-control"
           value={formData.idLab}
           name="idLab"
           onChange={handleChange}
-          enable
+        >
+          <option value="" disabled hidden>
+            Escolha o Laboratório
+          </option>
+          <option value="">Sem Laboratório</option>
+          {laboratorios.map((lab) => (
+            <option key={lab.id} value={lab.id}>
+              {lab.nome}
+            </option>
+          ))}
+        </Form.Select>
+      </Form.Group>
+
+      <Form.Group className="mb-1">
+        <Form.Label>Nome de Utilizador</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Nome Completo"
+          value={formData.username}
+          name="username"
+          onChange={handleChange}
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-1">
         <Form.Label>Nome</Form.Label>
         <Form.Control
           type="text"
@@ -81,11 +177,10 @@ export default function FormUpdate({ user }) {
           value={formData.nome}
           name="nome"
           onChange={handleChange}
-          enable
         />
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="campoEmail">
+      <Form.Group className="mb-1" controlId="campoEmail">
         <Form.Label>Email</Form.Label>
         <Form.Control
           type="email"
@@ -96,7 +191,7 @@ export default function FormUpdate({ user }) {
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-1">
         <Form.Label>Telefone</Form.Label>
         <Form.Control
           type="text"
@@ -104,11 +199,10 @@ export default function FormUpdate({ user }) {
           value={formData.telefone}
           name="telefone"
           onChange={handleChange}
-          enable
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-1">
         <Form.Label>Endereço</Form.Label>
         <Form.Control
           type="text"
@@ -116,11 +210,10 @@ export default function FormUpdate({ user }) {
           value={formData.endereco}
           name="endereco"
           onChange={handleChange}
-          enable
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-1">
         <Form.Label>Cód. Postal</Form.Label>
         <Form.Control
           type="text"
@@ -128,11 +221,10 @@ export default function FormUpdate({ user }) {
           value={formData.cod_postal}
           name="cod_postal"
           onChange={handleChange}
-          enable
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-1">
         <Form.Label>Nif</Form.Label>
         <Form.Control
           type="number"
@@ -140,9 +232,9 @@ export default function FormUpdate({ user }) {
           value={formData.nif}
           name="nif"
           onChange={handleChange}
-          enable
         />
       </Form.Group>
+      <Button className='button-perfil' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
     </div>
   );
 }
