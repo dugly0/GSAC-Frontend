@@ -1,0 +1,21 @@
+/* AutoMessage */
+.message {
+    text-align: center;
+    padding: 7px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+  
+.error {
+    color: rgb(255, 0, 0);
+    background-color: #ffe6e6;
+}
+  
+.success {
+    color: rgb(0, 192, 22);
+    background-color: #f0fff0;
+}
+.default {
+    color: rgb(0, 0, 0);
+    background-color: #ededed;
+}
