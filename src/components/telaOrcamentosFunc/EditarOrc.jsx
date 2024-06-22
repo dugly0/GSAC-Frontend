@@ -50,8 +50,21 @@ function EditarOrc(props) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(orcamentoAtualizado);
+    const token = getToken();
+    const dataToSend = { ...orcamentoAtualizado };
+
+    axios.put(`http://localhost:8080/api/orcamento/${orcamento.id}`, dataToSend, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        onEdit(response.data);
+        onHide();
+      })
+    // e.preventDefault();
+    // onHide();
+    // console.log(orcamentoAtualizado);
     // Aqui você pode adicionar a lógica para enviar os dados atualizados
   };
 
@@ -99,7 +112,7 @@ function EditarOrc(props) {
           <Form.Group controlId="preco">
             <h6>Preço:</h6>
             <Form.Control
-              type="currency"
+              type="number"
               name="preco"
               value={orcamentoAtualizado.preco}
               onChange={handleChange}
