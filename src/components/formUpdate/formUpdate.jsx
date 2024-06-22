@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import "./assets/css/formUpdate.css";
 
 export default function FormUpdate({ user, utilizador }) {
   const [formData, setFormData] = useState({
@@ -15,9 +16,20 @@ export default function FormUpdate({ user, utilizador }) {
     cod_postal: "",
     nif: "",
   });
-
   const [laboratorios, setLaboratorios] = useState([]);
   const [fetching, setFetching] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // 'error' ou 'success'
+
+  const showMessageAuto = (msg, type) => {
+    setMessage(msg);
+    setMessageType(type);
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 4000);
+  };
 
   useEffect(() => {
     if (user) {
@@ -103,23 +115,24 @@ export default function FormUpdate({ user, utilizador }) {
       );
 
       if (userResponse.status === 200) {
-        alert('Alterações salvas com sucesso!');
+        showMessageAuto('Alterações salvas com sucesso!', 'success');
       } else {
-        console.error("Erro ao salvar dados do usuário:");
-        alert('Erro ao salvar dados. Por favor, tente novamente.');
+        console.error(userResponse.data.message);
+        showMessageAuto('Erro ao salvar dados. Por favor, tente novamente.', 'error');
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        alert('Permissão negada. Por favor, verifique suas credenciais.');
+        showMessageAuto('Permissão negada. Por favor, verifique suas credenciais.', 'error');
       } else {
-        console.error("Erro na requisição:", error);
-        alert('Erro na requisição. Por favor, verifique sua conexão ou tente novamente mais tarde.');
+        console.error(error);
+        showMessageAuto('Erro na requisição. Por favor, verifique sua conexão ou tente novamente mais tarde.', 'error');
       }
     }
   };
 
   return (
     <div>
+      <Button className='button-perfil' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
       <Form.Group className="mb-1">
         <Form.Label>Tipo</Form.Label>
         <Form.Select
@@ -234,6 +247,7 @@ export default function FormUpdate({ user, utilizador }) {
           onChange={handleChange}
         />
       </Form.Group>
+      {showMessage && <p className={`message ${messageType}`}>{message}</p>}
       <Button className='button-perfil' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
     </div>
   );

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Collapse, Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import FormUpdate from "../formUpdate.jsx";
+import FormUpdate from "../formUpdate/formUpdate.jsx";
 import User from "../User.jsx";
 import "./assets/css/modalUpdate.css";
 
