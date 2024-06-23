@@ -151,7 +151,7 @@ function ListaOrcamentos() {
                       </td>
                     </tr>
                     {/* Renderiza o modal de edição apenas para o orçamento selecionado */}
-                    <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false) }  orcamento={orcamentoSelect}/>
+                    <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false) }  orcamento={orcamentoSelect} estados={estados}/>
                     {orcamentoEdit && orcamentoEdit.id === item.id && (
                       <EditarOrc 
                         show={showModalEdit}

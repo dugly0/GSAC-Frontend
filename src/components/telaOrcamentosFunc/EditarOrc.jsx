@@ -62,10 +62,6 @@ function EditarOrc(props) {
         onEdit(response.data);
         onHide();
       })
-    // e.preventDefault();
-    // onHide();
-    // console.log(orcamentoAtualizado);
-    // Aqui você pode adicionar a lógica para enviar os dados atualizados
   };
 
   const getNome = (id, valor) => {
