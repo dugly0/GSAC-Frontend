@@ -12,13 +12,11 @@ function MyVerticallyCenteredModal(props) {
   const { servicoOrcamentos, estadoOrcamentos  } = props.orcamento || {};
   const [estados, setEstado] = useState([]);
   const [estado_id, setEstadoId] = useState('');
-console.log(props.orcamento.id)
   const [confirmDelete, setConfirmDelete] = useState(false); 
   const [show, setShow] = useState(false);
   const handleChangeEstado = (event) => {
     setEstadoId(event.target.value); // Atualiza o estado_id com o valor selecionado
   };
-
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true) 
@@ -115,19 +113,15 @@ console.log(props.orcamento.id)
       throw error;
     }
   };
-  const handleSubmit = () => {
-    postEstado(props.orcamento.id,estado_id);
-    postEstado(estado_id);
-    onHide(); // Feche o modal após salvar
-  };
-  const postEstado = async (idOrcamento, estado_id) => {
+  const handleSubmit = async () => {
     try {    
-      const token = getToken();
-      const result = await axios.post("http://localhost:8080/api/orcamento/${idOrcaemnto}/create-estado-orcamento-lab" , {
+      const token = localStorage.getItem('token');
+      const result = await axios.post(`http://localhost:8080/api/orcamento/create-estado-orcamento-lab` , {
           headers: {
               'Authorization': `Bearer ${token}`
           },
           data: {
+            orcamentoId: props.orcamento.id,
             estado_id: estado_id
           }
       });
@@ -136,7 +130,9 @@ console.log(props.orcamento.id)
       console.error("Failed to get token:", error);
       throw error;
     }
+    setShow(false); // Feche o modal após salvar
   };
+ 
   const renderEstados = () => (
     <Table>
       <thead>
@@ -192,7 +188,7 @@ console.log(props.orcamento.id)
 
       <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Alterar Estado</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form.Group controlId="Estado">
