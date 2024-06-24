@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ModalUpdate from "../components/modalUpdate";
+import ModalUpdate from "../components/modalUpdate/modalUpdate";
 import ModalCreate from "../components/modalCreate";
 import Button from "react-bootstrap/Button";
 import '../assets/css/Gerenciar.css'

@@ -3,20 +3,39 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import logo from "./assets/images/logo-ipb.svg";
 import "./assets/css/styles.css";
+import axios from "axios";
 
 export default function PassRecoveryModal({ isShow, handleClose }) {
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null); // Add success message state
 
   const handleChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // enviar email para api
-    console.log("Email enviado para recuperação:", email);
-    // fechar modal
-    handleClose();
+    setIsLoading(true);
+    setError(null);
+    setSuccess(null); // Reset success message
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/forgot",
+        {
+          email: email,
+        }
+      );
+      setSuccess(
+        "Foram enviadas instruções para recuperação de senha no seu e-mail."
+      );
+    } catch (error) {
+      setError("Erro. Tente novamente mais tarde.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -35,7 +54,7 @@ export default function PassRecoveryModal({ isShow, handleClose }) {
             <Form.Control
               type="email"
               placeholder="Digite seu email"
-              value={email.email}
+              value={email}
               onChange={handleChange}
               required
               className="custom-input"
@@ -47,9 +66,13 @@ export default function PassRecoveryModal({ isShow, handleClose }) {
               className="mt-3 button text-center"
               variant="primary"
               type="submit"
+              disabled={isLoading}
             >
-              Recuperar Senha
+              {isLoading ? "Sending..." : "Recuperar Senha"}
             </Button>
+
+            {error && <p className="text-danger mt-2">{error}</p>}
+            {success && <p className="text-success mt-2">{success}</p>}
           </div>
         </Form>
       </Modal.Body>

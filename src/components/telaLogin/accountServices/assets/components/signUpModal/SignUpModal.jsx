@@ -11,6 +11,7 @@ export default function SignUpModal({ isShow, handleClose }) {
     nomeCompleto: "",
     newPassword: "",
     nif: "",
+    email: "",
     cod_postal: "",
     endereco: "",
     telefone: "",
@@ -35,6 +36,7 @@ export default function SignUpModal({ isShow, handleClose }) {
           newPassword: formData.newPassword,
           nome: formData.nomeCompleto,
           nif: formData.nif,
+          email: formData.email,
           cod_postal: formData.cod_postal,
           endereco: formData.endereco,
           telefone: formData.telefone,
@@ -74,6 +76,19 @@ export default function SignUpModal({ isShow, handleClose }) {
               maxLength={20}
               placeholder="Digite seu nome de usuário"
               value={formData.username}
+              onChange={handleChange}
+              required
+              className="custom-input"
+            />
+          </Form.Group>
+          <Form.Group controlId="formEmail">
+            <Form.Label className="pt-1">E-mail</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              maxLength={50}
+              placeholder="Digite seu nome de e-mail"
+              value={formData.email}
               onChange={handleChange}
               required
               className="custom-input"

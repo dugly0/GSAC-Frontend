@@ -278,7 +278,7 @@ const Perfil = () => {
             <div className='container my-1'>
               <div className="d-flex flex-wrap gap-3 flex-md-row flex-column">
                 <Button className='button-perfil' as={Link} to="/orcamentosfunc" onClick={handleGerenciar}>Voltar</Button>{' '}
-                <Button className='button-perfil' id='btn-1' as={Link} to="gerenciar" onClick={handleGerenciar}>Gerenciar Utilizadores</Button>{' '}
+                <Button className='button-perfil' id='btn-1' as={Link} to="/gerenciar" onClick={handleGerenciar}>Gerenciar Utilizadores</Button>{' '}
                 <Button className='button-perfil' id='btn-2' onClick={handleEditar}>Editar Perfil</Button>{' '}
               </div>
             </div>
