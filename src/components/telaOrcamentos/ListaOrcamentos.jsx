@@ -72,6 +72,13 @@ function BasicExample() {
     fetchData();
   }, [history]);
 
+  const orcamentosSolicitados = orcamentos.filter(
+    (item) => item.estadoAtual.estado !== "Aceito"
+  );
+  const prestacaoServicos = orcamentos.filter(
+    (item) => item.estadoAtual.estado === "Aceito"
+  );
+
   return (
     <Container>
       <Accordion defaultActiveKey="0" className="mt-5">
@@ -98,7 +105,7 @@ function BasicExample() {
                 </tr>
               </thead>
               <tbody>
-                {orcamentos.map((item, index) => (
+                {orcamentosSolicitados.map((item, index) => (
                   <React.Fragment key={item.id}>
                     <tr key={index}>
                       <td>{item.id}</td>
@@ -161,7 +168,7 @@ function BasicExample() {
                 ))}
 
                 {/* Renderiza a mensagem "Nenhum orçamento encontrado" se não houver orçamentos */}
-                {orcamentos.length === 0 && (
+                {orcamentosSolicitados.length === 0 && (
                   <tr className="empty-table-message">
                     <td colSpan={10}>
                       <div style={{ width: "100%" }}>
@@ -198,14 +205,12 @@ function BasicExample() {
                   <th>Preço</th>
                   <th>Data de entrega</th>
                   <th>Estado atual</th>
-                  <th>Utilizador</th>
-                  <th>Laboratório</th>
                   <th>Serviços e Estados</th>
                   <th>Editar</th>
                 </tr>
               </thead>
               <tbody>
-                {orcamentos.map((item, index) => (
+                {prestacaoServicos.map((item, index) => (
                   <React.Fragment key={item.id}>
                     <tr key={index}>
                       <td>{item.id}</td>
@@ -213,9 +218,7 @@ function BasicExample() {
                       <td>{item.descricao}</td>
                       <td>{item.preco}</td>
                       <td>{item.data_entrega}</td>
-                      {/* <td>{item.estadoOrcamento.estado}</td> */}
-                      {/* <td>{item.utilizador.nome}</td>
-                      <td>{item.laboratorio.nome}</td> */}
+                      <td>{item.estadoAtual.estado}</td>
                       <td onClick={() => handleShowModal(item.id)} className="">
                         <Button variant="outline-info">
                           <svg
@@ -270,7 +273,7 @@ function BasicExample() {
                 ))}
 
                 {/* Renderiza a mensagem "Nenhum orçamento encontrado" se não houver orçamentos */}
-                {orcamentos.length === 0 && (
+                {prestacaoServicos.length === 0 && (
                   <tr className="empty-table-message">
                     <td colSpan={10}>
                       <div style={{ width: "100%" }}>
