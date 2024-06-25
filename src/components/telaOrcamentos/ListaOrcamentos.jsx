@@ -6,6 +6,7 @@ import ModalButton from "./ModalButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MyVerticallyCenteredModal from "./ModalStatus";
+import ModalAceitarRecusar from "./ModalAceitarRecusar";
 
 const endpoint =
   "http://localhost:8080/api/orcamento/orcamento-por-utilizador-id";
@@ -36,20 +37,27 @@ const getOrcamentos = async () => {
 function BasicExample() {
   const [orcamentos, setOrcamentos] = useState([]);
   const [error, setError] = useState(null);
-  const [modalShow, setModalShow] = React.useState(false);
-  const [selectedItemId, setSelectedItemId] = useState([]);
+
   const history = useNavigate();
-  // const [showModalEdit, setShowModalEdit] = useState(false);
-  // const [orcamentoEdit, setOrcamentoEdit] = useState(null);
+  const [showModalAceitarRecusar, setShowModalAceitarRecusar] = useState(false);
+  const [showModalServicosEstados, setShowModalServicosEstados] =
+    useState(false);
+  const [selectedItemId, setSelectedItemId] = useState(null);
 
-  // const handleEdit = (orcamento) => {
-  //   setOrcamentoEdit(orcamento);
-  //   setShowModalEdit(true);
-  // };
-
-  const handleShowModal = (itemId) => {
+  const handleShowModalAceitarRecusar = (itemId) => {
     setSelectedItemId(itemId);
-    setModalShow(true);
+    setShowModalAceitarRecusar(true);
+  };
+
+  const handleShowModalServicosEstados = (itemId) => {
+    setSelectedItemId(itemId);
+    setShowModalServicosEstados(true);
+  };
+
+  const handleHideModal = () => {
+    setSelectedItemId(null);
+    setShowModalAceitarRecusar(false);
+    setShowModalServicosEstados(false);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -101,7 +109,7 @@ function BasicExample() {
                   <th>Data de entrega</th>
                   <th>Estado atual</th>
                   <th>Serviços e Estados</th>
-                  <th>Editar</th>
+                  <th>Aceitar ou Recusar Orçamento</th>
                 </tr>
               </thead>
               <tbody>
@@ -114,7 +122,10 @@ function BasicExample() {
                       <td>{item.preco}</td>
                       <td>{item.data_entrega}</td>
                       <td>{item.estadoAtual.estado}</td>
-                      <td onClick={() => handleShowModal(item.id)} className="">
+                      <td
+                        onClick={() => handleShowModalServicosEstados(item.id)}
+                        className=""
+                      >
                         <Button variant="outline-info">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -128,20 +139,19 @@ function BasicExample() {
                           </svg>
                         </Button>{" "}
                       </td>
-                      {/* <td onClick={() => handleEdit(item)}>
-                        <Button variant="outline-info">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-pencil-fill"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
-                          </svg>
-                        </Button>{" "}
-                      </td> */}
+
+                      <td>
+                        <Button
+                          variant="outline-info"
+                          onClick={() => handleShowModalAceitarRecusar(item.id)}
+                          disabled={
+                            item.estadoAtual.estado !==
+                            "Aguardando resposta do cliente"
+                          } // Desabilita se o estado não for o desejado
+                        >
+                          Aceitar/Recusar
+                        </Button>
+                      </td>
                     </tr>
                     {/* Renderiza o modal de edição apenas para o orçamento selecionado
                     {orcamentoEdit && orcamentoEdit.id === item.id && (
@@ -156,14 +166,15 @@ function BasicExample() {
                       />
                     )} */}
                     {/* Renderiza o modal apenas para o orçamento selecionado */}
-                    {selectedItemId === item.id &&
-                      modalShow && ( // Adicionado modalShow na condição
-                        <MyVerticallyCenteredModal
-                          show={modalShow}
-                          onHide={() => setModalShow(false)}
-                          itemId={item}
-                        />
-                      )}
+                    {selectedItemId === item.id && ( // Adicionado modalShow na condição
+                      <MyVerticallyCenteredModal
+                        show={showModalServicosEstados}
+                        onHide={handleHideModal}
+                        itemId={orcamentos.find(
+                          (orcamento) => orcamento.id === selectedItemId
+                        )}
+                      />
+                    )}
                   </React.Fragment>
                 ))}
 
@@ -206,7 +217,6 @@ function BasicExample() {
                   <th>Data de entrega</th>
                   <th>Estado atual</th>
                   <th>Serviços e Estados</th>
-                  <th>Editar</th>
                 </tr>
               </thead>
               <tbody>
@@ -219,7 +229,10 @@ function BasicExample() {
                       <td>{item.preco}</td>
                       <td>{item.data_entrega}</td>
                       <td>{item.estadoAtual.estado}</td>
-                      <td onClick={() => handleShowModal(item.id)} className="">
+                      <td
+                        onClick={() => handleShowModalServicosEstados(item.id)}
+                        className=""
+                      >
                         <Button variant="outline-info">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -233,42 +246,17 @@ function BasicExample() {
                           </svg>
                         </Button>{" "}
                       </td>
-                      {/* <td onClick={() => handleEdit(item)}>
-                        <Button variant="outline-info">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-pencil-fill"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
-                          </svg>
-                        </Button>{" "}
-                      </td> */}
                     </tr>
-                    {/* Renderiza o modal de edição apenas para o orçamento selecionado
-                    {orcamentoEdit && orcamentoEdit.id === item.id && (
-                      <EditOrcamentoModal
-                        show={showModalEdit}
-                        onHide={() => setShowModalEdit(false)}
-                        orcamento={orcamentoEdit}
-                        onEdit={(updatedOrcamento) => {
-                          // Lógica para atualizar o orçamento na API e no estado local
-                          // ...
-                        }}
-                      />
-                    )} */}
                     {/* Renderiza o modal apenas para o orçamento selecionado */}
-                    {selectedItemId === item.id &&
-                      modalShow && ( // Adicionado modalShow na condição
-                        <MyVerticallyCenteredModal
-                          show={modalShow}
-                          onHide={() => setModalShow(false)}
-                          itemId={item}
-                        />
-                      )}
+                    {selectedItemId === item.id && ( // Adicionado modalShow na condição
+                      <MyVerticallyCenteredModal
+                        show={showModalServicosEstados}
+                        onHide={handleHideModal}
+                        itemId={orcamentos.find(
+                          (orcamento) => orcamento.id === selectedItemId
+                        )}
+                      />
+                    )}
                   </React.Fragment>
                 ))}
 
@@ -287,6 +275,13 @@ function BasicExample() {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
+      <ModalAceitarRecusar
+        show={showModalAceitarRecusar}
+        onHide={handleHideModal}
+        orcamento={orcamentos.find(
+          (orcamento) => orcamento.id === selectedItemId
+        )}
+      />
     </Container>
   );
 }
