@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 
 function MyVerticallyCenteredModal(props) {
-  const { servicoOrcamentos, estadoOrcamentos } = props.itemId || {};
+  const { orcamento } = props;
 
   const renderServicos = () => (
     <Table>
@@ -18,7 +18,7 @@ function MyVerticallyCenteredModal(props) {
         </tr>
       </thead>
       <tbody>
-        {servicoOrcamentos.map((servico) => (
+        {orcamento.servicoOrcamentos.map((servico) => (
           <tr key={servico.servico_id}>
             <td>{servico.servico_id}</td>
             <td>{servico.nome}</td>
@@ -41,7 +41,7 @@ function MyVerticallyCenteredModal(props) {
         </tr>
       </thead>
       <tbody>
-        {estadoOrcamentos.map((estado, index) => (
+        {orcamento.estadoOrcamentos.map((estado, index) => (
           <tr key={`${estado.id}-${index}`}>
             <td>{estado.estado}</td>
             <td>{estado.data}</td>
@@ -66,13 +66,16 @@ function MyVerticallyCenteredModal(props) {
       <Modal.Body>
         <div>
           <h1>Lista de Serviços</h1>
-          {servicoOrcamentos && servicoOrcamentos.length > 0 ? (
+          {orcamento.servicoOrcamentos &&
+          orcamento.servicoOrcamentos.length > 0 ? (
             <ul>{renderServicos()}</ul>
           ) : (
             <p>Nenhum serviço disponível</p>
           )}
           <h1>Estados dos Orçamentos</h1>
-          {estadoOrcamentos && estadoOrcamentos.length > 0 && renderEstados()}
+          {orcamento.estadoOrcamentos &&
+            orcamento.estadoOrcamentos.length > 0 &&
+            renderEstados()}
         </div>
       </Modal.Body>
       <Modal.Footer>

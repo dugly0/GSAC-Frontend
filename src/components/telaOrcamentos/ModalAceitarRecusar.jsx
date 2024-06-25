@@ -27,6 +27,7 @@ const ModalAceitarRecusar = ({ show, onHide, orcamento }) => {
       );
       console.log("Orcamento Aceito:", response.data);
       onHide();
+      window.location.reload();
       // Aqui você pode adicionar lógica para atualizar o estado local ou recarregar os dados
     } catch (error) {
       console.error("Erro ao aceitar orçamento:", error);
@@ -56,6 +57,7 @@ const ModalAceitarRecusar = ({ show, onHide, orcamento }) => {
       );
       console.log("Orcamento Recusado:", response.data);
       onHide();
+      window.location.reload();
       // Aqui você pode adicionar lógica para atualizar o estado local ou recarregar os dados
     } catch (error) {
       console.error("Erro ao recusar orçamento:", error);

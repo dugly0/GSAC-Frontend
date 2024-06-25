@@ -153,24 +153,13 @@ function BasicExample() {
                         </Button>
                       </td>
                     </tr>
-                    {/* Renderiza o modal de edição apenas para o orçamento selecionado
-                    {orcamentoEdit && orcamentoEdit.id === item.id && (
-                      <EditOrcamentoModal
-                        show={showModalEdit}
-                        onHide={() => setShowModalEdit(false)}
-                        orcamento={orcamentoEdit}
-                        onEdit={(updatedOrcamento) => {
-                          // Lógica para atualizar o orçamento na API e no estado local
-                          // ...
-                        }}
-                      />
-                    )} */}
+
                     {/* Renderiza o modal apenas para o orçamento selecionado */}
-                    {selectedItemId === item.id && ( // Adicionado modalShow na condição
+                    {selectedItemId === item.id && (
                       <MyVerticallyCenteredModal
                         show={showModalServicosEstados}
                         onHide={handleHideModal}
-                        itemId={orcamentos.find(
+                        orcamento={orcamentos.find(
                           (orcamento) => orcamento.id === selectedItemId
                         )}
                       />
@@ -248,11 +237,11 @@ function BasicExample() {
                       </td>
                     </tr>
                     {/* Renderiza o modal apenas para o orçamento selecionado */}
-                    {selectedItemId === item.id && ( // Adicionado modalShow na condição
+                    {selectedItemId === item.id && (
                       <MyVerticallyCenteredModal
                         show={showModalServicosEstados}
                         onHide={handleHideModal}
-                        itemId={orcamentos.find(
+                        orcamento={orcamentos.find(
                           (orcamento) => orcamento.id === selectedItemId
                         )}
                       />
