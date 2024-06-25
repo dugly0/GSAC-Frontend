@@ -16,6 +16,7 @@ function FormOrcamentos() {
     servico_orcamento: [],
   });
   const [servicosDisponiveis, setServicosDisponiveis] = useState([]);
+  const [laboratorioId, setLaboratorioId] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const history = useNavigate();
 
@@ -62,6 +63,16 @@ function FormOrcamentos() {
     const updatedServicos = [...formData.servico_orcamento];
     updatedServicos[index][field] =
       field === "servico_id" ? parseInt(value, 10) : value;
+
+    if (field === "servico_id") {
+      const selectedServico = servicosDisponiveis.find(
+        (servico) => servico.id === parseInt(value, 10)
+      );
+      if (selectedServico && index === 0) {
+        setLaboratorioId(selectedServico.laboratorio_id);
+      }
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       servico_orcamento: updatedServicos,
@@ -79,11 +90,28 @@ function FormOrcamentos() {
   };
 
   const removeServico = (index) => {
+    const updatedServicos = formData.servico_orcamento.filter(
+      (_, i) => i !== index
+    );
+
+    if (index === 0) {
+      setLaboratorioId(null); // Resetar laboratórioId
+      if (updatedServicos.length > 0) {
+        const newFirstServico = updatedServicos[0];
+        if (newFirstServico.servico_id) {
+          const selectedServico = servicosDisponiveis.find(
+            (servico) => servico.id === newFirstServico.servico_id
+          );
+          if (selectedServico) {
+            setLaboratorioId(selectedServico.laboratorio_id);
+          }
+        }
+      }
+    }
+
     setFormData((prevData) => ({
       ...prevData,
-      servico_orcamento: prevData.servico_orcamento.filter(
-        (_, i) => i !== index
-      ),
+      servico_orcamento: updatedServicos,
     }));
   };
 
@@ -124,10 +152,13 @@ function FormOrcamentos() {
         servico_orcamento: [],
       });
 
+      // Resetar laboratórioId
+      setLaboratorioId(null);
+
       // Ocultar a mensagem de sucesso após um tempo (opcional)
       setTimeout(() => {
         setShowSuccessMessage(false);
-      }, 1200); // 3 segundos
+      }, 1200); // 1.2 segundos
     } catch (error) {
       console.error("Erro ao criar orçamento:", error);
       // Lógica para lidar com o erro (ex: exibir mensagem de erro)
@@ -136,6 +167,12 @@ function FormOrcamentos() {
       window.location.reload();
     }, 1200);
   };
+
+  const filteredServicos = laboratorioId
+    ? servicosDisponiveis.filter(
+        (servico) => servico.laboratorio_id === laboratorioId
+      )
+    : servicosDisponiveis;
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -180,7 +217,7 @@ function FormOrcamentos() {
                   required
                 >
                   <option value="">Selecione um serviço</option>
-                  {servicosDisponiveis.map((servicoDisponivel) => (
+                  {filteredServicos.map((servicoDisponivel) => (
                     <option
                       key={servicoDisponivel.id}
                       value={servicoDisponivel.id}
