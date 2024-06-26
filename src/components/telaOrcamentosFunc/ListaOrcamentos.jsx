@@ -66,7 +66,7 @@ function ListaOrcamentos() {
   }
   const orcamentosAceitos = orcamentos.filter((orcamento) => {
     const ultimoEstado = orcamento.estadoOrcamentos.reduce((prev, current) =>
-      prev.data > current.data ? prev : current
+      prev.id > current.id ? prev : current
     );
     return ultimoEstado.estado === "Aceito";
   });
@@ -74,10 +74,13 @@ function ListaOrcamentos() {
   const orcamentosNaoAceitos = orcamentos.filter(
     (orcamento) => !orcamentosAceitos.includes(orcamento)
   );
+  // console.log(orcamentos)
+
   useEffect(() => {   
     const fetchData = async () => {      
       try {
         setOrcamentos(await getDados("orcamentos"));
+        console.log(orcamentos)
         setError(null);
         setLaboratorios(await getDados("laboratorios"));
         setError(null);

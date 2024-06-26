@@ -2,7 +2,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import { useState } from "react";
-import { faPencil, faTimes } from "@fortawesome/free-solid-svg-icons"; // Importe o ícone faTimes para o ícone de X
+import { faPencil, faTimes } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
@@ -54,7 +54,6 @@ function MyVerticallyCenteredModal(props) {
     setConfirmDelete(false); // Esconde o botão de confirmação após a exclusão
     props.onHide();
     window.location.reload(); // Recarrega a página
-
   };
   const handleCancelDelete = () => {
     setConfirmDelete(false); // Cancela a exclusão e esconde o botão de confirmação
@@ -99,9 +98,10 @@ function MyVerticallyCenteredModal(props) {
         </tbody>       
   </Table>
   );
+  const token = getToken();
   const getEstados = async (key) => {
     try {    
-      const token = getToken();
+      // const token = getToken();
       const result = await axios.get("http://localhost:8080/api/estado", {
           headers: {
               'Authorization': `Bearer ${token}`
@@ -115,19 +115,22 @@ function MyVerticallyCenteredModal(props) {
   };
   const handleSubmit = async () => {
     try {    
-      const token = localStorage.getItem('token');
-      const result = await axios.post(`http://localhost:8080/api/orcamento/create-estado-orcamento-lab` , {
-          headers: {
-              'Authorization': `Bearer ${token}`
-          },
-          data: {
-            orcamentoId: props.orcamento.id,
-            estado_id: estado_id
-          }
+      const token = getToken();
+      const result = await axios.put(`http://localhost:8080/api/orcamento/update-estado` , {
+        headers: {
+          'Authorization': `Bearer ${token}`
+      } ,
+          orcamentoId: props.orcamento.id,         
+          estadoOrcamentos: estado_id
+          
       });
-      setEstado(result.data);
+      console.log(token , estado_id)
+      setShow(false); //
+      return result.data;
+     
     } catch (error) {
-      console.error("Failed to get token:", error);
+      console.error("Failed", error);
+      console.log(token , estado_id)
       throw error;
     }
     setShow(false); // Feche o modal após salvar
