@@ -3,6 +3,8 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 function EditOrcamentoModal(props) {
   const { show, onHide, orcamento, onEdit } = props;
@@ -91,10 +93,14 @@ function EditOrcamentoModal(props) {
       );
       onEdit(updatedOrcamento);
       onHide();
+      window.location.reload();
     } catch (error) {
       console.error("Failed to update orcamento:", error);
     }
   };
+  const estadosFiltrados = estados.filter((estado) => {
+    return estado.estado !== "Aceito" && estado.estado !== "Recusado";
+  });
 
   return (
     <Modal show={show} onHide={onHide} centered>
@@ -119,7 +125,7 @@ function EditOrcamentoModal(props) {
               value={estado}
               onChange={(e) => setEstado(e.target.value)}
             >
-              {estados.map((estado) => (
+              {estadosFiltrados.map((estado) => (
                 <option key={estado.id} value={estado.id}>
                   {estado.estado}
                 </option>
@@ -131,7 +137,20 @@ function EditOrcamentoModal(props) {
           {selectedServicos.map((servico, index) => (
             <div key={index} className="mb-3">
               <Form.Group controlId={`servico-${index}`}>
-                <Form.Label>Serviço</Form.Label>
+                {/* Modificação para posicionar o botão X */}
+                <div className="d-flex align-items-center">
+                  <Form.Label>Serviço</Form.Label>
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    onClick={() => handleRemoveServico(index)}
+                    style={{
+                      marginLeft: "auto",
+                      cursor: "pointer",
+                      color: "rgb(255, 0, 0)",
+                    }}
+                  />
+                </div>
+
                 <Form.Control
                   as="select"
                   value={servico.servico_id}
@@ -146,6 +165,7 @@ function EditOrcamentoModal(props) {
                     </option>
                   ))}
                 </Form.Control>
+
                 <Form.Label>Quantidade</Form.Label>
                 <Form.Control
                   type="number"
@@ -154,22 +174,27 @@ function EditOrcamentoModal(props) {
                     handleServicoChange(index, "quantidade", e.target.value)
                   }
                 />
-                <Button
-                  variant="danger"
-                  onClick={() => handleRemoveServico(index)}
-                >
-                  Remover
-                </Button>
               </Form.Group>
             </div>
           ))}
-          <Button variant="success" onClick={handleAddServico}>
+
+          <Button
+            variant="outline-light"
+            onClick={handleAddServico}
+            style={{ backgroundColor: "#820053" }}
+          >
             Adicionar Serviço
           </Button>
-
-          <Button variant="primary" type="submit" className="mt-3">
-            Salvar Alterações
-          </Button>
+          <div className="d-flex justify-content-end mt-3">
+            <Button
+              variant="outline-light"
+              type="submit"
+              className="mt-3"
+              style={{ backgroundColor: "#820053" }}
+            >
+              Salvar Alterações
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>
