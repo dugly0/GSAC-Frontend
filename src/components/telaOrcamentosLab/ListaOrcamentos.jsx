@@ -156,7 +156,7 @@ function BasicExample() {
                         show={showModalEdit}
                         onHide={() => setShowModalEdit(false)}
                         orcamento={orcamentoEdit}
-                        onEdit={(updatedOrcamento) => {
+                        onEdit={() => {
                           // Lógica para atualizar o orçamento na API e no estado local
                           // ...
                         }}
@@ -263,7 +263,7 @@ function BasicExample() {
                         show={showModalEdit}
                         onHide={() => setShowModalEdit(false)}
                         orcamento={orcamentoEdit}
-                        onEdit={(updatedOrcamento) => {
+                        onEdit={() => {
                           // Lógica para atualizar o orçamento na API e no estado local
                           // ...
                         }}
@@ -282,11 +282,11 @@ function BasicExample() {
                 ))}
 
                 {/* Renderiza a mensagem "Nenhum orçamento encontrado" se não houver orçamentos */}
-                {orcamentos.length === 0 && (
+                {orcamentosAceitos.length === 0 && (
                   <tr className="empty-table-message">
                     <td colSpan={10}>
                       <div style={{ width: "100%" }}>
-                        <p>Nenhum orçamento encontrado.</p>
+                        <p>Nenhum orçamento aceito encontrado.</p>
                       </div>
                     </td>
                   </tr>
