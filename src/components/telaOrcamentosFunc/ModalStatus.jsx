@@ -130,6 +130,7 @@ function MyVerticallyCenteredModal(props) {
       });
       console.log("Token:", token, "Estado ID:", estadoId);
       setShow(false); // Feche o modal após salvar
+      window.location.reload(); // Recarrega a página após salvar
       return result.data;
     } catch (error) {
       console.error("Failed to update estado:", error);
