@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ModalUpdate from "../components/modalUpdate/modalUpdate";
-import ModalCreate from "../components/modalCreate";
+import ModalCreate from "../components/modalCreate/modalCreate";
 import Button from "react-bootstrap/Button";
 import '../assets/css/Gerenciar.css'
 import { useNavigate } from "react-router-dom";

@@ -151,7 +151,6 @@ export default function FormUpdate({ user, utilizador }) {
 
   return (
     <div>
-      <Button className='button-perfil' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
       <Form.Group className="mb-1">
         <Form.Label>Tipo</Form.Label>
         <Form.Select
@@ -267,7 +266,7 @@ export default function FormUpdate({ user, utilizador }) {
         />
       </Form.Group>
       {showMessage && <p className={`message ${messageType}`}>{message}</p>}
-      <Button className='button-perfil' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
+      <Button className='button-perfil mt-2' onClick={handleSalvar}>Salvar Alterações</Button>{' '}
     </div>
   );
 }

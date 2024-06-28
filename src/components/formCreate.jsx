@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import React, {useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 
@@ -57,7 +52,7 @@ const FormCreate = forwardRef(({ formData, setFormData }, ref) => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/user/register",
-        formData,
+        dataToSend,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,8 +60,10 @@ const FormCreate = forwardRef(({ formData, setFormData }, ref) => {
         }
       );
       console.log("Registro bem-sucedido:", response.data);
+      return true;
     } catch (error) {
       console.error("Erro ao registrar:", error);
+      return false;
     }
   };
 

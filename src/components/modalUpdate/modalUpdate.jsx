@@ -14,6 +14,18 @@ export default function ModalUpdate({ isShow, handleClose }) {
   const [hasError, setHasError] = useState(false);
   const [search, setSearch] = useState('');
   const [userType, setUserType] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // 'error' ou 'success'
+
+  const showMessageAuto = (msg, type) => {
+    setMessage(msg);
+    setMessageType(type);
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 4000);
+  };
 
   // Função para buscar dados dos usuários e laboratórios
   useEffect(() => {
@@ -85,18 +97,18 @@ export default function ModalUpdate({ isShow, handleClose }) {
         }
       });
 
-      if (response.status === 200) {
-        alert('Usuário excluído com sucesso!');
+      if (response.status === 204) {
+        showMessageAuto('Usuário excluído com sucesso.', 'success');
         // Atualizar a lista de usuários após a exclusão
         const updatedUsers = users.filter(user => user.id !== userId);
         setUsers(updatedUsers);
       } else {
         console.error("Erro ao excluir usuário:", response.data);
-        alert('Erro ao excluir usuário. Por favor, tente novamente.');
+        showMessageAuto('Erro ao excluir usuário. Por favor, tente novamente.', 'error');
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
-      alert('Erro na requisição. Por favor, verifique sua conexão ou tente novamente mais tarde.');
+      showMessageAuto('Erro na requisição. Por favor, verifique sua conexão ou tente novamente mais tarde.', 'error');
     }
   };
 
@@ -149,6 +161,7 @@ export default function ModalUpdate({ isShow, handleClose }) {
             ))}
           </select>
         </div>
+        {showMessage && <p className={`message ${messageType}`}>{message}</p>}
       </Modal.Header>
 
       <Modal.Body>
