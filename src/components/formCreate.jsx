@@ -1,4 +1,9 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 
@@ -85,7 +90,7 @@ const FormCreate = forwardRef(({ formData, setFormData }, ref) => {
           </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Nome de usuário</Form.Label>
+          <Form.Label>Usuário</Form.Label>
           <Form.Control
             type="text"
             name="username"
@@ -94,14 +99,24 @@ const FormCreate = forwardRef(({ formData, setFormData }, ref) => {
             onChange={handleChange}
           />
         </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>E-mail</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            placeholder="E-mail"
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Senha</Form.Label>
           <Form.Control
             type="password"
-            name="newPassword"
+            name="password"
             placeholder="Senha"
-            value={formData.newPassword}
+            value={formData.password}
             onChange={handleChange}
           />
         </Form.Group>
@@ -120,7 +135,7 @@ const FormCreate = forwardRef(({ formData, setFormData }, ref) => {
         <Form.Group className="mb-3">
           <Form.Label>NIF</Form.Label>
           <Form.Control
-            type="text"
+            type="number"
             name="nif"
             placeholder="NIF"
             value={formData.nif}

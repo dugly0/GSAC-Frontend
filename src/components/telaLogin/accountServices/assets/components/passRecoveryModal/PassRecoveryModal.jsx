@@ -68,7 +68,7 @@ export default function PassRecoveryModal({ isShow, handleClose }) {
               type="submit"
               disabled={isLoading}
             >
-              {isLoading ? "Sending..." : "Recuperar Senha"}
+              {isLoading ? "Enviando..." : "Recuperar Senha"}
             </Button>
 
             {error && <p className="text-danger mt-2">{error}</p>}

@@ -6,7 +6,7 @@ import FormCreate from "./formCreate";
 export default function ModalCreate({ isShow, handleClose }) {
   const [formData, setFormData] = useState({
     username: "",
-    newPassword: "",
+    password: "",
     nome: "",
     nif: "",
     cod_postal: "",
@@ -21,7 +21,6 @@ export default function ModalCreate({ isShow, handleClose }) {
   const handleSubmit = async () => {
     if (formCreateRef.current) {
       await formCreateRef.current.handleSubmit();
-      handleClose();
     }
   };
 
@@ -33,7 +32,11 @@ export default function ModalCreate({ isShow, handleClose }) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <FormCreate ref={formCreateRef} formData={formData} setFormData={setFormData} />
+        <FormCreate
+          ref={formCreateRef}
+          formData={formData}
+          setFormData={setFormData}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleClose}>Cancelar</Button>
