@@ -76,7 +76,7 @@ export default function ModalCreate({ isShow, handleClose }) {
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button className="button" onClick={handleClose}>Cancelar</Button>
+        <Button className="button" onClick={handleClose}>Fechar</Button>
         <Button className="button" onClick={handleSubmit}>Registrar</Button>
       </Modal.Footer>
     </Modal>
