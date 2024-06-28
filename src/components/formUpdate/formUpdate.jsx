@@ -34,7 +34,7 @@ export default function FormUpdate({ user, utilizador }) {
   useEffect(() => {
     if (user) {
       setFormData({
-        role_id: user.role_id || "",
+        role_id: convertRoleIdToLabel(user.role_id), // Função para converter role_id para rótulo exibido
         idLab: user.utilizador?.idLab || "",
         username: user.username || "",
         nome: user.utilizador?.nome || "",
@@ -74,23 +74,42 @@ export default function FormUpdate({ user, utilizador }) {
     }));
   };
 
+  const convertRoleIdToLabel = (roleId) => {
+    switch (roleId) {
+      case 1:
+        return "Admin";
+      case 2:
+        return "Cliente";
+      case 3:
+        return "Laboratório";
+      default:
+        return ""; // Lide com outros casos conforme necessário
+    }
+  };
+
   const handleSalvar = async () => {
     try {
       const token = localStorage.getItem('token');
       
-      let role_id;
+      let roleIdFromDatabase;
+      
       switch (formData.role_id) {
         case "Admin":
-          role_id = 1;
+          roleIdFromDatabase = 1;
           break;
         case "Cliente":
-          role_id = 2;
+          roleIdFromDatabase = 2;
           break;
         case "Laboratório":
-          role_id = 3;
+          roleIdFromDatabase = 3;
           break;
         default:
-          role_id = user.role_id;
+          roleIdFromDatabase = null; // Trate outros casos conforme necessário
+      }
+
+      if (roleIdFromDatabase === null) {
+        showMessageAuto('Erro: Tipo de usuário inválido.', 'error');
+        return;
       }
 
       const userResponse = await axios.put(
@@ -98,7 +117,7 @@ export default function FormUpdate({ user, utilizador }) {
         {
           username: formData.username,
           email: formData.email,
-          role_id: role_id,
+          role_id: roleIdFromDatabase,
           idLab: formData.idLab,
           nome: formData.nome,
           telefone: formData.telefone,
