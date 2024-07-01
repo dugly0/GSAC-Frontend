@@ -138,7 +138,7 @@ function ListaOrcamentos() {
                       <td>{item.data_entrega}</td>
                       <td>{item.estadoOrcamentos[0].estado}</td>
                       <td>{item.utilizador_id}</td>
-                      <td>{item.laboratorio_id}</td>
+                      <td>{getNomeLab(item.laboratorio_id)}</td>
                       <td onClick={() => mostrarServicos(item)} className="">
                         <Button variant="outline-info">
                           <svg
@@ -227,7 +227,7 @@ function ListaOrcamentos() {
                       <td>{item.data_entrega}</td>
                       <td>{item.estadoOrcamentos[0].estado}</td>
                       <td>{item.utilizador_id}</td>
-                      <td>{item.laboratorio_id}</td>
+                      <td>{getNomeLab(item.laboratorio_id)}</td>
                       <td onClick={() => mostrarServicos(item)} className="">
                         <Button variant="outline-info">
                           <svg
